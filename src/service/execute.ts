@@ -15,7 +15,7 @@ export const handler = async (req: Express.Request) => {
     } else {
       if (!reqBody.form_params.from_message) {
         throw new Error('送信元の方へのメッセージが入力されていません。');
-      } else if (reqBody.form_params.to_member_message.length > 100) {
+      } else if (reqBody.form_params.from_message.length > 100) {
         throw new Error('送信元の方へのメッセージが100文字を超えています。');
       }
       if (!reqBody.form_params.to_message) {
