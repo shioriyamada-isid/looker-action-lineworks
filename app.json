@@ -39,5 +39,10 @@
     {
       "plan": "heroku-postgresql"
     }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
   ]
 }
