@@ -1,6 +1,6 @@
 import * as request from 'request';
 import * as csvParse from 'csv-parse';
-import { Logger } from '../utils/util';
+import { Logger } from '../utils/logger';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';
 
 export class Messenger {
@@ -9,20 +9,24 @@ export class Messenger {
   private token?: string;
   private logger: Logger;
 
-  constructor(botNo: string, logger: Logger) {
-    this.messagePushUrl = 'https://apis.worksmobile.com/r/' + process.env.LINEWORKS_API_ID + '/message/v1/bot/' + botNo + '/message/push';
+  constructor(logger: Logger) {
+    this.messagePushUrl = `https://apis.worksmobile.com/r/${process.env.LINEWORKS_API_ID}/message/v1/bot/${process.env.LINEWORKS_BOT_NO}/message/push`;
     this.consumerKey = process.env.LINEWORKS_CONSUMER_KEY || '';
     this.logger = logger;
   }
 
-  sendMessages = async (column: any, message: any, parser: csvParse.Parser): Promise<{ sendCount: number; msgCount: number }> => {
+  sendMessages = async (
+    column: { fromId: string; toId: string; toName: string },
+    message: { from: string; to: string },
+    parser: csvParse.Parser
+  ): Promise<{ sendCount: number; msgCount: number }> => {
     if (!this.token) {
       const lineworksAccessTokenController = new LineworksAccessTokenController();
       this.token = await lineworksAccessTokenController.getValidAccessToken();
     }
-    let colMemberId: string = '';
-    let colCustomerId: string = '';
-    let colCustomerName: string = '';
+    let colFromId: string = '';
+    let colToId: string = '';
+    let colToName: string = '';
     const msgData: { [key: string]: Array<{ customerId: number; customerName: string }> } = {};
 
     let isErr: boolean = false;
@@ -31,39 +35,39 @@ export class Messenger {
       msgCount++;
       if (msgCount === 1) {
         for (const col in data) {
-          if (col.substr(-column.memberId.length) === column.memberId) {
-            colMemberId = col;
-          } else if (col.substr(-column.customerId.length) === column.customerId) {
-            colCustomerId = col;
-          } else if (col.substr(-column.customerName.length) === column.customerName) {
-            colCustomerName = col;
+          if (col.substr(-column.fromId.length) === column.fromId) {
+            colFromId = col;
+          } else if (col.substr(-column.toId.length) === column.toId) {
+            colToId = col;
+          } else if (col.substr(-column.toName.length) === column.toName) {
+            colToName = col;
           }
         }
       }
 
-      if (!colMemberId) {
+      if (!colFromId) {
         isErr = true;
-        this.logger.error(`集計データに ${column.memberId} 列がありません。`);
+        this.logger.error(`集計データに ${column.fromId} 列がありません。`);
       }
-      if (!colCustomerId) {
+      if (!colToId) {
         isErr = true;
-        this.logger.error(`集計データに ${column.customerId} 列がありません。`);
+        this.logger.error(`集計データに ${column.toId} 列がありません。`);
       }
-      if (!colCustomerName) {
+      if (!colToName) {
         isErr = true;
-        this.logger.error(`集計データに ${column.customerName} 列がありません。`);
+        this.logger.error(`集計データに ${column.toName} 列がありません。`);
       }
 
       if (isErr) {
         continue;
       }
 
-      let customerList = msgData[data[colMemberId]];
+      let customerList = msgData[data[colFromId]];
       if (!customerList) {
         customerList = [];
-        msgData[data[colMemberId]] = customerList;
+        msgData[data[colFromId]] = customerList;
       }
-      customerList.push({ customerId: data[colCustomerId], customerName: data[colCustomerName] });
+      customerList.push({ customerId: data[colToId], customerName: data[colToName] });
     }
 
     let sendCount = 0;
@@ -109,7 +113,7 @@ export class Messenger {
   private messagePush(
     member: string,
     customers: Array<{ customerId: number; customerName: string }>,
-    message: { toMember: string; toCustomer: string }
+    message: { from: string; to: string }
   ): Promise<number> {
     return new Promise((resolve, reject) => {
       const actions = [];
@@ -118,7 +122,7 @@ export class Messenger {
         actions.push({
           type: 'uri',
           label: customer.customerName + '様へメッセージを送る',
-          uri: 'lineworks://message/send?version=15&message=' + encodeURI(message.toCustomer) + '&worksAtIdList=' + customer.customerId,
+          uri: 'lineworks://message/send?version=15&message=' + encodeURI(message.to) + '&worksAtIdList=' + customer.customerId,
         });
       }
 
@@ -134,7 +138,7 @@ export class Messenger {
           accountId: member,
           content: {
             type: 'button_template',
-            contentText: message.toMember,
+            contentText: message.from,
             actions: actions,
           },
         },

@@ -10,17 +10,21 @@
       "generator": "secret"
     },
     "LINEWORKS_API_ID": {
-      "description": "The number of processes to run."
+      "description": "LINEWORKS API ID"
     },
     "LINEWORKS_CONSUMER_KEY": {
-      "description": "The number of processes to run."
+      "description": "LINEWORKS Consumer Key"
     },
     "LINEWORKS_SERVER_AUTH_KEY": {
-      "description": "The number of processes to run."
+      "description": "LINEWORKS Server Authentication Key"
     },
     "LINEWORKS_SERVER_ID": {
-      "description": "The number of processes to run."
+      "description": "LINEWORKS Server ID"
     },
+    "LINEWORKS_BOT_NO": {
+      "description": "LINEWORKS Bot No."
+    },
+
     "COLUMN_MEMBER_ID": {
       "description": "The number of processes to run."
     },

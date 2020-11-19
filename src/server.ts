@@ -2,7 +2,7 @@ import * as Express from 'express';
 import * as list from './service/list';
 import * as execute from './service/execute';
 import * as form from './service/form';
-import { Logger } from './utils/util';
+import { Logger } from './utils/logger';
 import * as psql from './db/psql';
 
 const PORT = process.env.PORT || 3000;
@@ -16,21 +16,15 @@ app.use(Express.urlencoded({ extended: true, limit: '500mb' }));
 psql.init();
 
 app.get('/', (req: Express.Request, res: Express.Response) => {
-  console.log('/------------------get=>root-----------------/');
   return res.status(200).send('Hello World!');
 });
 
 app.post('/action', async (req: Express.Request, res: Express.Response) => {
-  console.log('/------------------action-----------------/');
-  // console.log(req.body);
   const resBody: any = await list.handler(req);
-
   return res.status(200).send(resBody);
 });
 
 app.post('/action/execute', async (req: Express.Request, res: Express.Response) => {
-  console.log('/------------------execute-----------------/');
-  // console.log(JSON.stringify(req.body));
   await execute.handler(req).catch(error => {
     logger.error(error.message);
     return res.sendStatus(400);
@@ -40,10 +34,6 @@ app.post('/action/execute', async (req: Express.Request, res: Express.Response) 
 
 app.post('/action/form', async (req: Express.Request, res: Express.Response) => {
   console.log('/------------------form-----------------/');
-  // console.log(JSON.stringify(req.body));
-
-  // TODO ここにテストのアクションも書く
-
   const resform = await form.handler(req);
   return res.status(200).send(resform);
 });
