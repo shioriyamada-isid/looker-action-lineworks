@@ -83,7 +83,7 @@ export class LineworksAccessTokenController {
   };
 
   private readAccessToken = async () => {
-    return await this.repository.find({ id: 'LINE_WORKS_ACCESS_TOKEN' });
+    return await this.repository.findOne({ id: 'LINE_WORKS_ACCESS_TOKEN' });
   };
 
   private updateAccessToken = async (lineworksAccessToken: LineworksAccessToken) => {
@@ -102,7 +102,7 @@ export class LineworksAccessTokenController {
     let postlwat = new LineworksAccessToken();
     // 取得できない、または、期限が切れている場合、新たに取得してDBをセット
     // 期限が有効な場合、updatedAtを更新して終了
-    if (prelwat.length === 0) {
+    if (prelwat === undefined) {
       console.log('a');
       postlwat = await this.createAccessToken();
     } else if (!this.checkValidTerm(prelwat)) {
