@@ -1,0 +1,39 @@
+{
+  "name": "Action hub for LINEWORKS",
+  "description": "Action hub to send message in LINEWORKS",
+  "keywords": ["looker", "typescript"],
+  "repository": "https://github.com",
+  "logo": "https://small-sharp-tool.com/logo.svg",
+  "env": {
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "LINEWORKS_API_ID": {
+      "description": "The number of processes to run."
+    },
+    "LINEWORKS_CONSUMER_KEY": {
+      "description": "The number of processes to run."
+    },
+    "LINEWORKS_SERVER_AUTH_KEY": {
+      "description": "The number of processes to run."
+    },
+    "LINEWORKS_SERVER_ID": {
+      "description": "The number of processes to run."
+    },
+    "COLUMN_MEMBER_ID": {
+      "description": "The number of processes to run."
+    },
+    "COLUMN_CUSTOMER_ID": {
+      "description": "The number of processes to run."
+    },
+    "COLUMN_CUSTOMER_NAME": {
+      "description": "The number of processes to run."
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql"
+    }
+  ]
+}
