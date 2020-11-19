@@ -70,8 +70,8 @@ const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; ms
         // TODO form_paramに変換
         const column = {
           fromId: req.data.from_id || 'FromID',
-          toId: req.data.to_id || 'CustomerID',
-          toName: req.data.to_name || 'CustomerName',
+          toId: req.data.to_id || 'ToID',
+          toName: req.data.to_name || 'ToName',
         };
         const message = {
           from: req.form_params.from_message,
