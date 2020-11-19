@@ -13,7 +13,7 @@ export class LineworksAccessTokenController {
   constructor() {
     this.serverId = process.env.LINEWORKS_SERVER_ID || '';
     this.authKey = process.env.LINEWORKS_SERVER_AUTH_KEY || '';
-    this.tokenUrl = 'https://auth.worksmobile.com/b/' + process.env.LINEWORKS_API_ID + '/server/token';
+    this.tokenUrl = `https://auth.worksmobile.com/b/${process.env.LINEWORKS_API_ID}/server/token`;
     this.repository = getRepository(LineworksAccessToken);
   }
 
@@ -68,6 +68,7 @@ export class LineworksAccessTokenController {
     const now: number = Date.now();
     if (lineworksAccessToken.updatedAt === undefined) return false;
     const timediff = now - lineworksAccessToken.updatedAt.getTime() + lineworksAccessToken.expires_in * 1000;
+    console.log(timediff);
     if (timediff < 0) {
       return true;
     } else {
