@@ -15,24 +15,14 @@
     "LINEWORKS_CONSUMER_KEY": {
       "description": "LINEWORKS Consumer Key"
     },
-    "LINEWORKS_SERVER_AUTH_KEY": {
-      "description": "LINEWORKS Server Authentication Key"
-    },
     "LINEWORKS_SERVER_ID": {
       "description": "LINEWORKS Server ID"
     },
+    "LINEWORKS_SERVER_AUTH_KEY": {
+      "description": "LINEWORKS Server Authentication Key"
+    },
     "LINEWORKS_BOT_NO": {
       "description": "LINEWORKS Bot No."
-    },
-
-    "COLUMN_MEMBER_ID": {
-      "description": "The number of processes to run."
-    },
-    "COLUMN_CUSTOMER_ID": {
-      "description": "The number of processes to run."
-    },
-    "COLUMN_CUSTOMER_NAME": {
-      "description": "The number of processes to run."
     }
   },
   "addons": [

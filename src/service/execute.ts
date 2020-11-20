@@ -25,34 +25,19 @@ export const handler = async (req: Express.Request) => {
       }
     }
 
-    const result = await invokeHandler(reqBody, logger);
-    if (result !== 202) {
-      throw new Error('メッセージ送信処理の起動に失敗しました。');
-    }
+    await invokeHandler(reqBody, logger);
   } catch (e) {
-    logger.error(e.message);
-    return 400;
+    logger.error(JSON.stringify(e));
   }
-
-  return 200;
 };
 
-export const invokeHandler = async (req: any, logger: Logger): Promise<number> => {
-  let cnt: any;
-  try {
-    cnt = await sendMessages(req, logger);
-  } catch (e) {
-    logger.info(`Send Message Error!!\n${JSON.stringify(e)}`);
-    return 400;
-  } finally {
-    if (cnt.sendCount === cnt.msgCount) {
-      logger.info(`[${cnt.sendCount}/${cnt.msgCount}]件のメッセージを送信しました。`);
-    } else {
-      logger.error(`[${cnt.sendCount}/${cnt.msgCount}]件のメッセージを送信しました。`);
-    }
+export const invokeHandler = async (req: any, logger: Logger) => {
+  const cnt = await sendMessages(req, logger);
+  if (cnt.sendCount === cnt.msgCount) {
+    logger.info(`[${cnt.sendCount}/${cnt.msgCount}]件のメッセージを送信しました。`);
+  } else {
+    logger.error(`[${cnt.sendCount}/${cnt.msgCount}]件のメッセージを送信しました。`);
   }
-
-  return 202;
 };
 
 const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; msgCount: number }> => {

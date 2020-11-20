@@ -67,11 +67,7 @@ export class LineworksAccessTokenController {
   private checkValidTerm = (lineworksAccessToken: LineworksAccessToken): boolean => {
     const now: number = Date.now();
     if (lineworksAccessToken.updatedAt === undefined) return false;
-    const timediff = now - lineworksAccessToken.updatedAt.getTime() + lineworksAccessToken.expires_in * 1000;
-    console.log('now : ' + now);
-    console.log('updateAt : ' + lineworksAccessToken.updatedAt.getTime());
-    console.log('expires_in : ' + lineworksAccessToken.expires_in);
-    console.log(timediff);
+    const timediff = now - (lineworksAccessToken.updatedAt.getTime() + lineworksAccessToken.expires_in * 1000);
     if (timediff < 0) {
       return true;
     } else {
@@ -100,8 +96,6 @@ export class LineworksAccessTokenController {
   public getValidAccessToken = async (): Promise<string> => {
     // DBから取得
     const prelwat = await this.readAccessToken(); // lineworks access token
-    console.log(prelwat);
-
     let postlwat = new LineworksAccessToken();
     // 取得できない、または、期限が切れている場合、新たに取得してDBをセット
     // 期限が有効な場合、updatedAtを更新して終了
@@ -111,9 +105,10 @@ export class LineworksAccessTokenController {
       postlwat = await this.getAccessToken();
       await this.updateAccessToken(postlwat);
     } else {
-      await this.updateAccessToken(prelwat);
+      postlwat = prelwat;
+      const a = await this.updateAccessToken(prelwat);
+      console.log(a);
     }
-    console.log(postlwat);
     return postlwat.accessToken;
   };
 }
