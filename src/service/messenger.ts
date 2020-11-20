@@ -144,8 +144,6 @@ export class Messenger {
         },
       };
 
-      this.logger.info(`Message Push\njson: ${JSON.stringify(options)}`);
-
       request.post(options, (err, res) => {
         if (err) {
           this.logger.error('メッセージ送信APIからエラーが返却されました。');

@@ -106,8 +106,7 @@ export class LineworksAccessTokenController {
       await this.updateAccessToken(postlwat);
     } else {
       postlwat = prelwat;
-      const a = await this.updateAccessToken(prelwat);
-      console.log(a);
+      await this.updateAccessToken(prelwat);
     }
     return postlwat.accessToken;
   };

@@ -11,6 +11,10 @@ const logger = new Logger(0);
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true, limit: '500mb' }));
+app.use((req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  logger.info(JSON.stringify(req.body));
+  next();
+});
 
 // init database
 psql.init();
