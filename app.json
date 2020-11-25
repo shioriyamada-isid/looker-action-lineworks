@@ -3,7 +3,7 @@
   "description": "Action hub to send message in LINEWORKS",
   "keywords": ["looker", "typescript"],
   "repository": "https://github.com",
-  "logo": "https://small-sharp-tool.com/logo.svg",
+  "logo": "https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/main/app-icon.png?token=AMHX5MMSYHGRX2REUZJFY7C7XXRFO",
   "env": {
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
