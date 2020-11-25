@@ -10,30 +10,29 @@
       "generator": "secret"
     },
     "LINEWORKS_API_ID": {
-      "description": "The number of processes to run."
+      "description": "LINEWORKS API ID"
     },
     "LINEWORKS_CONSUMER_KEY": {
-      "description": "The number of processes to run."
-    },
-    "LINEWORKS_SERVER_AUTH_KEY": {
-      "description": "The number of processes to run."
+      "description": "LINEWORKS Consumer Key"
     },
     "LINEWORKS_SERVER_ID": {
-      "description": "The number of processes to run."
+      "description": "LINEWORKS Server ID"
     },
-    "COLUMN_MEMBER_ID": {
-      "description": "The number of processes to run."
+    "LINEWORKS_SERVER_AUTH_KEY": {
+      "description": "LINEWORKS Server Authentication Key"
     },
-    "COLUMN_CUSTOMER_ID": {
-      "description": "The number of processes to run."
-    },
-    "COLUMN_CUSTOMER_NAME": {
-      "description": "The number of processes to run."
+    "LINEWORKS_BOT_NO": {
+      "description": "LINEWORKS Bot No."
     }
   },
   "addons": [
     {
       "plan": "heroku-postgresql"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
     }
   ]
 }

@@ -1,5 +1,4 @@
 import { createConnection } from 'typeorm';
-
 import dbConfig from './config';
 
 export const init = async () => {
