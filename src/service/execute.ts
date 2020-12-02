@@ -8,7 +8,6 @@ export const handler = async (req: Express.Request) => {
   const reqBody = req.body;
   const logger = new Logger(reqBody.scheduled_plan.scheduled_plan_id);
 
-  // check
   try {
     if (!reqBody.form_params) {
       throw new Error('必須項目が入力されていません。');
@@ -25,6 +24,7 @@ export const handler = async (req: Express.Request) => {
       }
     }
 
+    // TODO error code 422 を入れる
     await invokeHandler(reqBody, logger);
   } catch (e) {
     logger.error(JSON.stringify(e));
