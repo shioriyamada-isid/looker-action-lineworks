@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import csvParse from 'csv-parse';
+import * as csvParse from 'csv-parse';
 import { Logger } from '../utils/logger';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';
 
