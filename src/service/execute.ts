@@ -1,6 +1,6 @@
 import Express from 'express';
-import * as request from 'request-promise-native';
-import * as csvParse from 'csv-parse';
+import fetch from 'node-fetch';
+import csvParse from 'csv-parse';
 import { Messenger } from './messenger';
 import { Logger } from '../utils/logger';
 
@@ -74,6 +74,8 @@ const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; ms
       reject(err);
     });
 
-    request.get(url).pipe(parser);
+    fetch(url).then(response => {
+      response.body.pipe(parser);
+    });
   });
 };

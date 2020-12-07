@@ -28,21 +28,27 @@ describe('success case', () => {
   });
   test('list', async () => {
     mockList.mockResolvedValue({ test: 'test' });
-    const result = await request(app).post('/').set('Authorization', 'Token token="test"');
+    const result = await request(app)
+      .post('/')
+      .set('Authorization', 'Token token="test"');
     expect(result.body.test).toBe('test');
     expect(result.status).toBe(200);
   });
 
   test('form', async () => {
     mockForm.mockResolvedValue({ test: 'test' });
-    const result = await request(app).post('/form').set('Authorization', 'Token token="test"');
+    const result = await request(app)
+      .post('/form')
+      .set('Authorization', 'Token token="test"');
     expect(result.body.test).toBe('test');
     expect(result.status).toBe(200);
   });
 
   test('execute', async () => {
     mockExeute.mockResolvedValue('test');
-    const result = await request(app).post('/execute').set('Authorization', 'Token token="test"');
+    const result = await request(app)
+      .post('/execute')
+      .set('Authorization', 'Token token="test"');
     expect(result.status).toBe(200);
   });
 });
@@ -55,7 +61,9 @@ describe('failure case', () => {
   it('throw Error in execute', async () => {
     const spyLogger = jest.spyOn(mockLogger.prototype, 'error').mockImplementationOnce(() => {});
     mockExeute.mockRejectedValue('test');
-    const result = await request(app).post('/execute').set('Authorization', 'Token token="test"');
+    const result = await request(app)
+      .post('/execute')
+      .set('Authorization', 'Token token="test"');
     expect(result.status).toBe(400);
     expect(spyLogger).toHaveBeenCalled();
   });

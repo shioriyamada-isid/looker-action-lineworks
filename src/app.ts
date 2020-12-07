@@ -28,6 +28,7 @@ app.post('/', async (req: Express.Request, res: Express.Response) => {
 });
 
 app.post('/execute', async (req: Express.Request, res: Express.Response) => {
+  console.log(JSON.stringify(req.body));
   const logger = new Logger(0);
   try {
     await execute.handler(req);

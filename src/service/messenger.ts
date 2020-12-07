@@ -1,5 +1,5 @@
-import * as request from 'request-promise-native';
-import * as csvParse from 'csv-parse';
+import fetch from 'node-fetch';
+import csvParse from 'csv-parse';
 import { Logger } from '../utils/logger';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';
 
@@ -129,7 +129,15 @@ export class Messenger {
         });
       }
 
-      const options: request.Options = {
+      const body = {
+        accountId: member,
+        content: {
+          type: 'button_template',
+          contentText: message.from,
+          actions: actions,
+        },
+      };
+      const options = {
         uri: this.messagePushUrl,
         method: 'POST',
         headers: {
@@ -137,25 +145,15 @@ export class Messenger {
           consumerKey: this.consumerKey,
           Authorization: `Bearer ${this.token}`,
         },
-        json: {
-          accountId: member,
-          content: {
-            type: 'button_template',
-            contentText: message.from,
-            actions: actions,
-          },
-        },
+        body: JSON.stringify(body),
       };
 
-      request.post(options, (err, res) => {
-        if (err) {
-          this.logger.error('メッセージ送信APIからエラーが返却されました。');
-          reject(err);
-        } else if (res.statusCode === 200) {
-          resolve(res.statusCode);
+      fetch(this.messagePushUrl, options).then(response => {
+        if (response.ok) {
+          resolve(response.status);
         } else {
-          this.logger.error(`メッセージ送信APIからエラーコード(${res.statusCode})が返却されました。`);
-          reject(res.body);
+          this.logger.error(`メッセージ送信APIからエラーコード(${response.status})が返却されました。`);
+          reject(response.status);
         }
       });
     });
