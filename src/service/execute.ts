@@ -1,6 +1,6 @@
 import Express from 'express';
 import fetch from 'node-fetch';
-import csvParse from 'csv-parse';
+import * as csvParse from 'csv-parse';
 import { Messenger } from './messenger';
 import { Logger } from '../utils/logger';
 
