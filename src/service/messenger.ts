@@ -1,4 +1,4 @@
-import * as request from 'request';
+import * as request from 'request-promise-native';
 import * as csvParse from 'csv-parse';
 import { Logger } from '../utils/logger';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';

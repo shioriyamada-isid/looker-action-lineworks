@@ -1,4 +1,4 @@
-import * as request from 'request';
+import * as request from 'request-promise-native';
 import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import LineworksAccessToken from '../entity/lineworksAccessToken';
