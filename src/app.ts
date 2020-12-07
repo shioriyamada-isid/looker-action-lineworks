@@ -22,21 +22,23 @@ app.get('/', (req: Express.Request, res: Express.Response) => {
   return res.status(200).send('Hello World!');
 });
 
-app.post('/action', async (req: Express.Request, res: Express.Response) => {
-  const resBody: any = await list.handler(req);
+app.post('/', async (req: Express.Request, res: Express.Response) => {
+  const resBody = await list.handler(req);
   return res.status(200).send(resBody);
 });
 
-app.post('/action/execute', async (req: Express.Request, res: Express.Response) => {
+app.post('/execute', async (req: Express.Request, res: Express.Response) => {
   const logger = new Logger(0);
-  await execute.handler(req).catch(error => {
-    logger.error(error.message);
+  try {
+    await execute.handler(req);
+  } catch (e) {
+    logger.error(e.message);
     return res.sendStatus(400);
-  });
+  }
   return res.sendStatus(200);
 });
 
-app.post('/action/form', async (req: Express.Request, res: Express.Response) => {
+app.post('/form', async (req: Express.Request, res: Express.Response) => {
   const resform = await form.handler(req);
   return res.status(200).send(resform);
 });

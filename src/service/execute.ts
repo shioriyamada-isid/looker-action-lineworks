@@ -1,5 +1,5 @@
 import Express from 'express';
-import * as request from 'request';
+import * as request from 'request-promise-native';
 import * as csvParse from 'csv-parse';
 import { Messenger } from './messenger';
 import { Logger } from '../utils/logger';
@@ -8,27 +8,23 @@ export const handler = async (req: Express.Request) => {
   const reqBody = req.body;
   const logger = new Logger(reqBody.scheduled_plan.scheduled_plan_id);
 
-  try {
-    if (!reqBody.form_params) {
-      throw new Error('必須項目が入力されていません。');
-    } else {
-      if (!reqBody.form_params.from_message) {
-        throw new Error('送信元の方へのメッセージが入力されていません。');
-      } else if (reqBody.form_params.from_message.length > 100) {
-        throw new Error('送信元の方へのメッセージが100文字を超えています。');
-      }
-      if (!reqBody.form_params.to_message) {
-        throw new Error('送信先の方へのメッセージテンプレートが入力されていません。');
-      } else if (reqBody.form_params.to_message.length > 75) {
-        throw new Error('送信先の方へのメッセージテンプレートが75文字を超えています。');
-      }
+  if (!reqBody.form_params) {
+    throw new Error('必須項目が入力されていません。');
+  } else {
+    if (!reqBody.form_params.from_message) {
+      throw new Error('送信元の方へのメッセージが入力されていません。');
+    } else if (reqBody.form_params.from_message.length > 100) {
+      throw new Error('送信元の方へのメッセージが100文字を超えています。');
     }
-
-    // TODO error code 422 を入れる
-    await invokeHandler(reqBody, logger);
-  } catch (e) {
-    logger.error(JSON.stringify(e));
+    if (!reqBody.form_params.to_message) {
+      throw new Error('送信先の方へのメッセージテンプレートが入力されていません。');
+    } else if (reqBody.form_params.to_message.length > 75) {
+      throw new Error('送信先の方へのメッセージテンプレートが75文字を超えています。');
+    }
   }
+
+  // TODO error code 422 を入れる
+  await invokeHandler(reqBody, logger);
 };
 
 export const invokeHandler = async (req: any, logger: Logger) => {
