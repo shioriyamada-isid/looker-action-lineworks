@@ -2,7 +2,6 @@ import fetch from 'node-fetch';
 import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import LineworksAccessToken from '../entity/lineworksAccessToken';
-import { json } from 'express';
 
 export class LineworksAccessTokenController {
   private serverId: string;
