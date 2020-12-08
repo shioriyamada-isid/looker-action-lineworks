@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import LineworksAccessToken from '../entity/lineworksAccessToken';
 
