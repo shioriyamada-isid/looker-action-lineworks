@@ -138,7 +138,6 @@ export class Messenger {
         },
       };
       const options = {
-        uri: this.messagePushUrl,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

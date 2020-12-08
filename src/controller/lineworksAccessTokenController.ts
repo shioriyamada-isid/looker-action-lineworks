@@ -36,14 +36,13 @@ export class LineworksAccessTokenController {
   }
 
   private async getAccessToken(): Promise<LineworksAccessToken> {
+    const body = {
+      grant_type: 'urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer',
+      assertion: this.getJwt(),
+    };
     const options = {
-      uri: this.tokenUrl,
       method: 'POST',
-      json: true,
-      form: {
-        grant_type: 'urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer',
-        assertion: this.getJwt(),
-      },
+      body: JSON.stringify(body),
     };
     const rowResponse = await fetch(this.tokenUrl, options);
     const jsonResponse = await rowResponse.json();
@@ -65,10 +64,8 @@ export class LineworksAccessTokenController {
     }
   };
 
-  private createAccessToken = async () => {
-    const accessToken = await this.getAccessToken();
-    await this.repository.insert(accessToken);
-    return accessToken;
+  private createAccessToken = async (accessToken: LineworksAccessToken) => {
+    return await this.repository.insert(accessToken);
   };
 
   private readAccessToken = async () => {
@@ -91,7 +88,8 @@ export class LineworksAccessTokenController {
     // 期限が有効な場合、updatedAtを更新して終了
     console.log(prelwat);
     if (prelwat === undefined) {
-      postlwat = await this.createAccessToken();
+      postlwat = await this.getAccessToken();
+      await this.createAccessToken(postlwat);
     } else if (!this.checkValidTerm(prelwat)) {
       postlwat = await this.getAccessToken();
       await this.updateAccessToken(postlwat);
