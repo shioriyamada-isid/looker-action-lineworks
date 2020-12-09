@@ -102,6 +102,7 @@ export class LineworksAccessTokenController {
         postlwat = await this.getAccessToken();
       } else {
         postlwat = prelwat;
+        postlwat.id = 'LINE_WORKS_ACCESS_TOKEN';
       }
       await this.updateAccessToken(postlwat);
     }
