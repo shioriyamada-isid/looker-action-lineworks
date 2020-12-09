@@ -42,6 +42,9 @@ export class LineworksAccessTokenController {
     };
     const options = {
       method: 'POST',
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      },
       body: JSON.stringify(body),
     };
     const rowResponse = await fetch(this.tokenUrl, options);
