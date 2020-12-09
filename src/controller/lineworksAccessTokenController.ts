@@ -89,6 +89,7 @@ export class LineworksAccessTokenController {
     // 取得できない、または、期限が切れている場合、新たに取得してDBをセット
     // 期限が有効な場合、updatedAtを更新して終了
     console.log(prelwat);
+    console.log(this.checkValidTerm(prelwat));
     if (prelwat === undefined) {
       postlwat = await this.getAccessToken();
       await this.createAccessToken(postlwat);
