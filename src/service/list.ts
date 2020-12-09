@@ -15,7 +15,7 @@ export const handler = async (req: Express.Request) => {
         supported_formats: ['txt', 'csv', 'html'],
         supported_formattings: ['unformatted'],
         supported_visualization_formattings: ['noapply'],
-        supported_download_settings: ['url', 'push'],
+        supported_download_settings: ['push'],
         params: [
           {
             name: 'from_id',
