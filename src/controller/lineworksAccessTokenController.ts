@@ -55,27 +55,28 @@ export class LineworksAccessTokenController {
     return accessToken;
   }
 
+  /**
+   *
+   * @param lineworksAccessToken
+   * @description 有効だったらtrue 無効だったらfalse
+   */
   private checkValidTerm = (lineworksAccessToken: LineworksAccessToken): boolean => {
     const now: number = Date.now();
     if (lineworksAccessToken.updatedAt === undefined) return false;
-    const timediff = now - (lineworksAccessToken.updatedAt.getTime() + lineworksAccessToken.expires_in * 1000);
-    if (timediff < 0) {
+    const timediff = lineworksAccessToken.updatedAt.getTime() + lineworksAccessToken.expires_in * 1000 - now;
+    if (timediff > 0) {
       return true;
     } else {
       return false;
     }
   };
 
-  private createAccessToken = async (accessToken: LineworksAccessToken) => {
-    return await this.repository.insert(accessToken);
+  private saveAccessToken = async (accessToken: LineworksAccessToken) => {
+    return await this.repository.save(accessToken);
   };
 
   private readAccessToken = async () => {
     return await this.repository.findOne({ id: 'LINE_WORKS_ACCESS_TOKEN' });
-  };
-
-  private updateAccessToken = async (lineworksAccessToken: LineworksAccessToken) => {
-    return await this.repository.update({ id: 'LINE_WORKS_ACCESS_TOKEN' }, lineworksAccessToken);
   };
 
   private deleteAccessToken = async (): Promise<LineworksAccessToken> => {
@@ -89,19 +90,13 @@ export class LineworksAccessTokenController {
     // 取得できない、または、期限が切れている場合、新たに取得してDBをセット
     // 期限が有効な場合、updatedAtを更新して終了
     console.log(prelwat);
-    if (prelwat === undefined) {
-      postlwat = await this.getAccessToken();
-      await this.createAccessToken(postlwat);
-    } else if (!this.checkValidTerm(prelwat)) {
-      console.log(this.checkValidTerm(prelwat));
-      postlwat = await this.getAccessToken();
-      await this.updateAccessToken(postlwat);
-    } else {
-      console.log(this.checkValidTerm(prelwat));
+    if (prelwat !== undefined && this.checkValidTerm(prelwat)) {
       postlwat = prelwat;
-      await this.updateAccessToken(prelwat);
+    } else {
+      postlwat = await this.getAccessToken();
     }
     console.log(postlwat);
+    await this.saveAccessToken(postlwat);
     return postlwat.accessToken;
   };
 }
