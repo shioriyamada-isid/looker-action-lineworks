@@ -92,11 +92,12 @@ export class LineworksAccessTokenController {
     console.log(prelwat);
     if (prelwat !== undefined && this.checkValidTerm(prelwat)) {
       postlwat = prelwat;
+      postlwat.id = 'LINE_WORKS_ACCESS_TOKEN'; // 空更新でupdateatが変更されたなかったため追加
     } else {
       postlwat = await this.getAccessToken();
     }
-    console.log(postlwat);
-    await this.saveAccessToken(postlwat);
+    const a = await this.saveAccessToken(postlwat);
+    console.log(a);
     return postlwat.accessToken;
   };
 }
