@@ -28,9 +28,22 @@ export class Messenger {
     let colToId: string = '';
     let colToName: string = '';
     const msgData: { [key: string]: Array<{ customerId: number; customerName: string }> } = {};
+    {
+      key: [
+        {
+          customerId: 1,
+          customerName: 'test',
+        },
+        {
+          customerId: 2,
+          customerName: 'test2',
+        },
+      ];
+    }
+    let msgCount: number = 0;
 
     let isErr: boolean = false;
-    let msgCount: number = 0;
+
     for await (const data of parser) {
       msgCount++;
       if (msgCount === 1) {
@@ -43,19 +56,18 @@ export class Messenger {
             colToName = col;
           }
         }
-      }
-
-      if (!colFromId) {
-        isErr = true;
-        this.logger.error(`集計データに ${column.fromId} 列がありません。`);
-      }
-      if (!colToId) {
-        isErr = true;
-        this.logger.error(`集計データに ${column.toId} 列がありません。`);
-      }
-      if (!colToName) {
-        isErr = true;
-        this.logger.error(`集計データに ${column.toName} 列がありません。`);
+        if (!colFromId) {
+          isErr = true;
+          this.logger.error(`集計データに ${column.fromId} 列がありません。`);
+        }
+        if (!colToId) {
+          isErr = true;
+          this.logger.error(`集計データに ${column.toId} 列がありません。`);
+        }
+        if (!colToName) {
+          isErr = true;
+          this.logger.error(`集計データに ${column.toName} 列がありません。`);
+        }
       }
 
       if (isErr) {
