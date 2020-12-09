@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import LineworksAccessToken from '../entity/lineworksAccessToken';
+import { URLSearchParams } from 'url';
 
 export class LineworksAccessTokenController {
   private serverId: string;
@@ -36,16 +37,12 @@ export class LineworksAccessTokenController {
   }
 
   private async getAccessToken(): Promise<LineworksAccessToken> {
-    const body = {
-      grant_type: 'urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer',
-      assertion: this.getJwt(),
-    };
+    const form = new URLSearchParams();
+    form.append('grant_type', 'urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer');
+    form.append('assertion', this.getJwt());
     const options = {
       method: 'POST',
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(body),
+      body: form,
     };
     const rowResponse = await fetch(this.tokenUrl, options);
     const jsonResponse = await rowResponse.json();
