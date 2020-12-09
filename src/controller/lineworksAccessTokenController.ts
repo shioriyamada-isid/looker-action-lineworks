@@ -71,12 +71,16 @@ export class LineworksAccessTokenController {
     }
   };
 
-  private saveAccessToken = async (accessToken: LineworksAccessToken) => {
-    return await this.repository.save(accessToken);
+  private createAccessToken = async (accessToken: LineworksAccessToken) => {
+    return await this.repository.insert(accessToken);
   };
 
   private readAccessToken = async () => {
     return await this.repository.findOne({ id: 'LINE_WORKS_ACCESS_TOKEN' });
+  };
+
+  private updateAccessToken = async (lineworksAccessToken: LineworksAccessToken) => {
+    return await this.repository.update({ id: 'LINE_WORKS_ACCESS_TOKEN' }, lineworksAccessToken);
   };
 
   private deleteAccessToken = async (): Promise<LineworksAccessToken> => {
@@ -90,14 +94,18 @@ export class LineworksAccessTokenController {
     // 取得できない、または、期限が切れている場合、新たに取得してDBをセット
     // 期限が有効な場合、updatedAtを更新して終了
     console.log(prelwat);
-    if (prelwat !== undefined && this.checkValidTerm(prelwat)) {
-      postlwat = prelwat;
-      postlwat.id = 'LINE_WORKS_ACCESS_TOKEN'; // 空更新でupdateatが変更されたなかったため追加
-    } else {
+    if (prelwat === undefined) {
       postlwat = await this.getAccessToken();
+      await this.createAccessToken(postlwat);
+    } else {
+      if (!this.checkValidTerm(prelwat)) {
+        postlwat = await this.getAccessToken();
+      } else {
+        postlwat = prelwat;
+      }
+      await this.updateAccessToken(postlwat);
     }
-    const a = await this.saveAccessToken(postlwat);
-    console.log(a);
+    console.log(postlwat);
     return postlwat.accessToken;
   };
 }
