@@ -43,7 +43,7 @@ export class LineworksAccessTokenController {
     const options = {
       method: 'POST',
       header: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify(body),
     };
