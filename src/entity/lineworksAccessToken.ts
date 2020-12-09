@@ -16,8 +16,8 @@ export default class lineworksAccessToken {
   public expires_in: number = 0;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp', precision: 0 })
-  public createdAt?: Date;
+  public readonly createdAt?: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', precision: 0 })
-  public updatedAt?: Date;
+  public readonly updatedAt?: Date;
 }

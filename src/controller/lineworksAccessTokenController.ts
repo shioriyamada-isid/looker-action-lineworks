@@ -80,7 +80,7 @@ export class LineworksAccessTokenController {
   };
 
   private updateAccessToken = async (lineworksAccessToken: LineworksAccessToken) => {
-    return await this.repository.update({ id: 'LINE_WORKS_ACCESS_TOKEN' }, lineworksAccessToken);
+    return await this.repository.update({ id: 'LINE_WORKS_ACCESS_TOKEN' }, { accessToken: lineworksAccessToken.accessToken });
   };
 
   private deleteAccessToken = async (): Promise<LineworksAccessToken> => {
@@ -102,7 +102,6 @@ export class LineworksAccessTokenController {
         postlwat = await this.getAccessToken();
       } else {
         postlwat = prelwat;
-        postlwat.id = 'LINE_WORKS_ACCESS_TOKEN';
       }
       await this.updateAccessToken(postlwat);
     }
