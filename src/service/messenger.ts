@@ -69,7 +69,7 @@ export class Messenger {
       }
 
       // toNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
-      const toName = data[colToName].lenght > 20 ? data[colToName].slice(0, 19) + '…' : data[colToName];
+      const toName = data[colToName].lenght > 19 ? data[colToName].slice(0, 18) + '…' : data[colToName];
       customerList.push({ customerId: data[colToId], customerName: toName });
     }
 
