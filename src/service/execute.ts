@@ -38,7 +38,7 @@ export const invokeHandler = async (req: any) => {
 
 const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; msgCount: number }> => {
   return new Promise<any>((resolve, reject) => {
-    const messenger: Messenger = new Messenger(logger);
+    const messenger: Messenger = new Messenger();
     const url = req.scheduled_plan.download_url;
     const parser = csvParse({
       delimiter: '\t',

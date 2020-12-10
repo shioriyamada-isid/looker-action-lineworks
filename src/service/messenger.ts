@@ -1,18 +1,15 @@
 import fetch from 'node-fetch';
 import * as csvParse from 'csv-parse';
-import { Logger } from '../utils/logger';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';
 
 export class Messenger {
   private messagePushUrl: string;
   private consumerKey: string;
   private token?: string;
-  private logger: Logger;
 
-  constructor(logger: Logger) {
+  constructor() {
     this.messagePushUrl = `https://apis.worksmobile.com/r/${process.env.LINEWORKS_API_ID}/message/v1/bot/${process.env.LINEWORKS_BOT_NO}/message/push`;
     this.consumerKey = process.env.LINEWORKS_CONSUMER_KEY || '';
-    this.logger = logger;
   }
 
   sendMessages = async (
