@@ -75,10 +75,13 @@ export class Messenger {
     console.log('msgData');
     console.log(msgData);
     for (const member in msgData) {
-      const customersData = msgData[member];
+      const customerList = msgData[member];
 
-      let tmpCustomers: any[] = [];
-      for (const customer of customersData) {
+      let tmpCustomers: typeof customerList = [];
+
+      const tmpCustomerList = arrayChunk(customerList, 10);
+      console.log(tmpCustomerList);
+      for (const customer of customerList) {
         tmpCustomers.push(customer);
         sendCount++;
 
@@ -86,27 +89,16 @@ export class Messenger {
           const customers: any[] = tmpCustomers;
           tmpCustomers = [];
 
-          try {
-            await this.messagePush(member, customers, message);
-            await sleep(500);
-          } catch (e) {
-            console.error(e);
-            return { sendCount: sendCount, msgCount: msgCount };
-          }
+          await this.messagePush(member, customers, message);
+          await sleep(500);
         }
       }
 
       if (tmpCustomers.length > 0) {
         const customers: any[] = tmpCustomers;
         tmpCustomers = [];
-
-        try {
-          await this.messagePush(member, customers, message);
-          await sleep(500);
-        } catch (e) {
-          console.error(e);
-          return { sendCount: sendCount, msgCount: msgCount };
-        }
+        await this.messagePush(member, customers, message);
+        await sleep(500);
       }
     }
     return { sendCount: sendCount, msgCount: msgCount };
@@ -157,5 +149,9 @@ export class Messenger {
     });
   }
 }
+
+const arrayChunk = ([...array], size = 1) => {
+  return array.reduce((acc, value, index) => (index % size ? acc : [...acc, array.slice(index, index + size)]), []);
+};
 
 const sleep = (msec: number) => new Promise(resolve => setTimeout(resolve, msec));
