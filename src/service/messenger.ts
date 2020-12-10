@@ -75,6 +75,8 @@ export class Messenger {
 
     let sendCount = 0;
 
+    console.log('msgData');
+    console.log(msgData);
     for (const member in msgData) {
       const customersData = msgData[member];
 
