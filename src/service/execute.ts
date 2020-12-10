@@ -44,29 +44,29 @@ const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; ms
       delimiter: '\t',
       columns: true,
     });
-    // const isSkip: boolean = false;
+    let isSkip: boolean = false;
 
     parser.on('readable', () => {
-      // if (!isSkip) {
-      //   isSkip = true;
-      const column = {
-        fromId: req.data.from_id || 'FromID',
-        toId: req.data.to_id || 'ToID',
-        toName: req.data.to_name || 'ToName',
-      };
-      const message = {
-        from: req.form_params.from_message,
-        to: req.form_params.to_message,
-      };
-      messenger
-        .sendMessages(column, message, parser)
-        .then((result: { sendCount: number; msgCount: number }) => {
-          resolve(result);
-        })
-        .catch(e => {
-          reject(e);
-        });
-      // }
+      if (!isSkip) {
+        isSkip = true;
+        const column = {
+          fromId: req.data.from_id || 'FromID',
+          toId: req.data.to_id || 'ToID',
+          toName: req.data.to_name || 'ToName',
+        };
+        const message = {
+          from: req.form_params.from_message,
+          to: req.form_params.to_message,
+        };
+        messenger
+          .sendMessages(column, message, parser)
+          .then((result: { sendCount: number; msgCount: number }) => {
+            resolve(result);
+          })
+          .catch(e => {
+            reject(e);
+          });
+      }
     });
 
     parser.on('error', err => {
