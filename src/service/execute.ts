@@ -6,7 +6,6 @@ import { Logger } from '../utils/logger';
 
 export const handler = async (req: Express.Request) => {
   const reqBody = req.body;
-  const logger = new Logger(reqBody.scheduled_plan.scheduled_plan_id);
 
   if (!reqBody.form_params) {
     throw new Error('必須項目が入力されていません。');
@@ -24,10 +23,11 @@ export const handler = async (req: Express.Request) => {
   }
 
   // TODO error code 422 を入れる
-  await invokeHandler(reqBody, logger);
+  await invokeHandler(reqBody);
 };
 
-export const invokeHandler = async (req: any, logger: Logger) => {
+export const invokeHandler = async (req: any) => {
+  const logger = new Logger(req.scheduled_plan.scheduled_plan_id);
   const cnt = await sendMessages(req, logger);
   if (cnt.sendCount === cnt.msgCount) {
     logger.info(`[${cnt.sendCount}/${cnt.msgCount}]件のメッセージを送信しました。`);

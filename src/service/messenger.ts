@@ -45,15 +45,12 @@ export class Messenger {
           }
         }
         if (!colFromId) {
-          this.logger.error(`集計データに ${column.fromId} 列がありません。`);
           throw new Error(`集計データに ${column.fromId} 列がありません。`);
         }
         if (!colToId) {
-          this.logger.error(`集計データに ${column.toId} 列がありません。`);
           throw new Error(`集計データに ${column.toId} 列がありません。`);
         }
         if (!colToName) {
-          this.logger.error(`集計データに ${column.toName} 列がありません。`);
           throw new Error(`集計データに ${column.toName} 列がありません。`);
         }
       }
@@ -67,7 +64,7 @@ export class Messenger {
       }
 
       // toNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
-      const toName = data[colToName].lenght > 9 ? data[colToName].slice(0, 8) + '…' : data[colToName];
+      const toName = data[colToName].length > 10 ? data[colToName].slice(0, 9) + '…' : data[colToName];
       customerList.push({ customerId: data[colToId], customerName: toName });
       console.log('customerList2');
       console.log(customerList);

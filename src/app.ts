@@ -28,7 +28,7 @@ app.post('/', async (req: Express.Request, res: Express.Response) => {
 });
 
 app.post('/execute', async (req: Express.Request, res: Express.Response) => {
-  const logger = new Logger(0);
+  const logger = new Logger(req.body.scheduled_plan.scheduled_plan_id);
   try {
     await execute.handler(req);
   } catch (e) {
