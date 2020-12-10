@@ -81,6 +81,7 @@ export class Messenger {
 
       const tmpCustomerList = arrayChunk(customerList, 10);
       console.log(tmpCustomerList);
+
       for (const customer of customerList) {
         tmpCustomers.push(customer);
         sendCount++;
@@ -104,49 +105,43 @@ export class Messenger {
     return { sendCount: sendCount, msgCount: msgCount };
   };
 
-  private messagePush(
+  private async messagePush(
     member: string,
     customers: Array<{ customerId: number; customerName: string }>,
     message: { from: string; to: string }
   ): Promise<number> {
-    return new Promise((resolve, reject) => {
-      const actions = [];
-
-      for (const customer of customers) {
-        actions.push({
-          type: 'uri',
-          label: customer.customerName + '様へメッセージを送る',
-          uri: 'lineworks://message/send?version=15&message=' + encodeURI(message.to) + '&worksAtIdList=' + customer.customerId,
-        });
-      }
-
-      const body = {
-        accountId: member,
-        content: {
-          type: 'button_template',
-          contentText: message.from,
-          actions: actions,
-        },
-      };
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          consumerKey: this.consumerKey,
-          Authorization: `Bearer ${this.token}`,
-        },
-        body: JSON.stringify(body),
-      };
-
-      fetch(this.messagePushUrl, options).then(response => {
-        if (response.ok) {
-          resolve(response.status);
-        } else {
-          this.logger.error(`メッセージ送信APIからエラーコード(${response.status})が返却されました。`);
-          reject(response.status);
-        }
+    const actions = [];
+    for (const customer of customers) {
+      actions.push({
+        type: 'uri',
+        label: customer.customerName + '様へメッセージを送る',
+        uri: 'lineworks://message/send?version=15&message=' + encodeURI(message.to) + '&worksAtIdList=' + customer.customerId,
       });
-    });
+    }
+
+    const body = {
+      accountId: member,
+      content: {
+        type: 'button_template',
+        contentText: message.from,
+        actions: actions,
+      },
+    };
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        consumerKey: this.consumerKey,
+        Authorization: `Bearer ${this.token}`,
+      },
+      body: JSON.stringify(body),
+    };
+
+    const response = await fetch(this.messagePushUrl, options);
+    if (!response.ok) {
+      throw new Error(`メッセージ送信APIからエラーコード(${response.status})が返却されました。`);
+    }
+    return response.status;
   }
 }
 
