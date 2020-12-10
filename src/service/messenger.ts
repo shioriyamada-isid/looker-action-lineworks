@@ -28,21 +28,9 @@ export class Messenger {
     let colToId: string = '';
     let colToName: string = '';
     const msgData: { [key: string]: Array<{ customerId: number; customerName: string }> } = {};
-    {
-      key: [
-        {
-          customerId: 1,
-          customerName: 'test',
-        },
-        {
-          customerId: 2,
-          customerName: 'test2',
-        },
-      ];
-    }
     let msgCount: number = 0;
 
-    let isErr: boolean = false;
+    // const isErr: boolean = false;
 
     for await (const data of parser) {
       msgCount++;
@@ -57,24 +45,22 @@ export class Messenger {
           }
         }
         if (!colFromId) {
-          isErr = true;
           this.logger.error(`集計データに ${column.fromId} 列がありません。`);
+          throw new Error(`集計データに ${column.fromId} 列がありません。`);
         }
         if (!colToId) {
-          isErr = true;
           this.logger.error(`集計データに ${column.toId} 列がありません。`);
+          throw new Error(`集計データに ${column.toId} 列がありません。`);
         }
         if (!colToName) {
-          isErr = true;
           this.logger.error(`集計データに ${column.toName} 列がありません。`);
+          throw new Error(`集計データに ${column.toName} 列がありません。`);
         }
-      }
-
-      if (isErr) {
-        continue;
       }
 
       let customerList = msgData[data[colFromId]];
+      console.log('customerList1');
+      console.log(customerList);
       if (!customerList) {
         customerList = [];
         msgData[data[colFromId]] = customerList;
@@ -83,6 +69,8 @@ export class Messenger {
       // toNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
       const toName = data[colToName].lenght > 9 ? data[colToName].slice(0, 8) + '…' : data[colToName];
       customerList.push({ customerId: data[colToId], customerName: toName });
+      console.log('customerList2');
+      console.log(customerList);
     }
 
     let sendCount = 0;
