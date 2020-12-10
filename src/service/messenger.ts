@@ -138,6 +138,7 @@ export class Messenger {
     };
 
     const response = await fetch(this.messagePushUrl, options);
+    console.log(response);
     if (!response.ok) {
       throw new Error(`メッセージ送信APIからエラーコード(${response.status})が返却されました。`);
     }
