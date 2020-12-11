@@ -104,7 +104,6 @@ export class Messenger {
         uri: 'lineworks://message/send?version=15&message=' + encodeURI(message.to) + '&worksAtIdList=' + customer.customerId,
       });
     }
-
     const body = {
       accountId: member,
       content: {
