@@ -62,8 +62,6 @@ export class Messenger {
       }
 
       let customerList = msgData[data[colFromId]];
-      console.log('customerList1');
-      console.log(customerList);
       if (!customerList) {
         customerList = [];
         msgData[data[colFromId]] = customerList;
@@ -72,8 +70,6 @@ export class Messenger {
       // toNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
       const toName = data[colToName].length > 10 ? data[colToName].slice(0, 9) + '…' : data[colToName];
       customerList.push({ customerId: data[colToId], customerName: toName });
-      console.log('customerList2');
-      console.log(customerList);
     }
 
     let sendCount = 0;
@@ -82,29 +78,13 @@ export class Messenger {
     console.log(msgData);
     for (const member in msgData) {
       const customerList = msgData[member];
-
-      let tmpCustomers: CustomerMessage[] = [];
-
       const tmpCustomerList = arrayChunk(customerList, 10);
+
       console.log(tmpCustomerList);
 
-      for (const customer of customerList) {
-        tmpCustomers.push(customer);
-        sendCount++;
-
-        if (tmpCustomers.length === 10) {
-          const customers = tmpCustomers;
-          tmpCustomers = [];
-
-          await this.messagePush(member, customers, message);
-          await sleep(500);
-        }
-      }
-
-      if (tmpCustomers.length > 0) {
-        const customers: any[] = tmpCustomers;
-        tmpCustomers = [];
-        await this.messagePush(member, customers, message);
+      for (const customerList of tmpCustomerList) {
+        sendCount += customerList.length;
+        await this.messagePush(member, customerList, message);
         await sleep(500);
       }
     }
