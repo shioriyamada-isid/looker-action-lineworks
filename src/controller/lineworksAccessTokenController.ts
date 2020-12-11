@@ -106,4 +106,10 @@ export class LineworksAccessTokenController {
     console.log(postlwat);
     return postlwat.accessToken;
   };
+
+  public forceGetValidAccessToken = async (): Promise<string> => {
+    const lwat = await this.getAccessToken();
+    await this.createAccessToken(lwat);
+    return lwat.accessToken;
+  };
 }

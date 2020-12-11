@@ -2,6 +2,15 @@ import fetch from 'node-fetch';
 import * as csvParse from 'csv-parse';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';
 
+interface CustomerMessage {
+  customerId: number;
+  customerName: string;
+}
+
+interface MessageData {
+  [key: string]: CustomerMessage[];
+}
+
 export class Messenger {
   private messagePushUrl: string;
   private consumerKey: string;
@@ -17,14 +26,14 @@ export class Messenger {
     message: { from: string; to: string },
     parser: csvParse.Parser
   ): Promise<{ sendCount: number; msgCount: number }> => {
+    const lineworksAccessTokenController = new LineworksAccessTokenController();
     if (!this.token) {
-      const lineworksAccessTokenController = new LineworksAccessTokenController();
       this.token = await lineworksAccessTokenController.getValidAccessToken();
     }
     let colFromId: string = '';
     let colToId: string = '';
     let colToName: string = '';
-    const msgData: { [key: string]: Array<{ customerId: number; customerName: string }> } = {};
+    const msgData: MessageData = {};
     let msgCount: number = 0;
 
     // const isErr: boolean = false;
@@ -74,7 +83,7 @@ export class Messenger {
     for (const member in msgData) {
       const customerList = msgData[member];
 
-      let tmpCustomers: typeof customerList = [];
+      let tmpCustomers: CustomerMessage[] = [];
 
       const tmpCustomerList = arrayChunk(customerList, 10);
       console.log(tmpCustomerList);
@@ -84,7 +93,7 @@ export class Messenger {
         sendCount++;
 
         if (tmpCustomers.length === 10) {
-          const customers: any[] = tmpCustomers;
+          const customers = tmpCustomers;
           tmpCustomers = [];
 
           await this.messagePush(member, customers, message);
@@ -102,11 +111,11 @@ export class Messenger {
     return { sendCount: sendCount, msgCount: msgCount };
   };
 
-  private async messagePush(
+  private messagePush = async (
     member: string,
     customers: Array<{ customerId: number; customerName: string }>,
     message: { from: string; to: string }
-  ): Promise<number> {
+  ) => {
     const actions = [];
     for (const customer of customers) {
       actions.push({
@@ -135,12 +144,17 @@ export class Messenger {
     };
 
     const response = await fetch(this.messagePushUrl, options);
-    console.log(response);
+
     if (!response.ok) {
-      throw new Error(`メッセージ送信APIからエラーコード(${response.status})が返却されました。`);
+      if (response.status === 401 && response.statusText === 'Authentication failed') {
+        const lineworksAccessTokenController = new LineworksAccessTokenController();
+        this.token = await lineworksAccessTokenController.forceGetValidAccessToken();
+        this.messagePush(member, customers, message);
+      } else {
+        throw new Error(`メッセージ送信APIからエラーコード(${response.status})が返却されました。`);
+      }
     }
-    return response.status;
-  }
+  };
 }
 
 const arrayChunk = ([...array], size = 1) => {
