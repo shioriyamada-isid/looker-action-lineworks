@@ -6,6 +6,7 @@ import { Logger } from '../utils/logger';
 
 export const handler = async (req: Express.Request) => {
   const reqBody = req.body;
+  console.log(JSON.stringify(reqBody));
 
   if (!reqBody.form_params) {
     throw new Error('必須項目が入力されていません。');
