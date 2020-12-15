@@ -14,7 +14,7 @@ export const handler = async (req: Express.Request) => {
         form_url: `https://${req.hostname}/form`,
         supported_formats: ['csv'],
         supported_formattings: ['unformatted'],
-        supported_visualization_formattings: ['apply'],
+        supported_visualization_formattings: ['noapply'],
         supported_download_settings: ['url'],
         params: [
           {
