@@ -43,6 +43,7 @@ export class Messenger {
       if (msgCount === 1) {
         console.log(data);
         for (const col in data) {
+          console.log(col);
           if (col.substr(-column.lineworksId.length) === column.lineworksId) {
             colLineworksId = col;
           } else if (col.substr(-column.lineId.length) === column.lineId) {
@@ -51,9 +52,6 @@ export class Messenger {
             colLineName = col;
           }
         }
-        console.log(colLineworksId);
-        console.log(colLineName);
-        console.log(colLineId);
         if (!colLineworksId) {
           throw new Error(`集計データに ${column.lineworksId} 列がありません。`);
         }
