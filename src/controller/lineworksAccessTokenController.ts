@@ -3,7 +3,6 @@ import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import LineworksAccessToken from '../entity/lineworksAccessToken';
 import { URLSearchParams } from 'url';
-import { json } from 'body-parser';
 
 export class LineworksAccessTokenController {
   private serverId: string;
