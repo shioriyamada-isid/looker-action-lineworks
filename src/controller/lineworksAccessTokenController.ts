@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 import LineworksAccessToken from '../entity/lineworksAccessToken';
 import { URLSearchParams } from 'url';
+import { json } from 'body-parser';
 
 export class LineworksAccessTokenController {
   private serverId: string;
@@ -50,6 +51,9 @@ export class LineworksAccessTokenController {
       throw new Error(`Fail to get LINEWORKS AccessToken : ${rowResponse.status} : ${rowResponse.statusText}`);
     }
     const jsonResponse = await rowResponse.json();
+    if (jsonResponse.message === 'jwt invalid signature') {
+      throw new Error(`Fail to get LINEWORKS AccessToken : ${jsonResponse.message} : ${jsonResponse.detail}`);
+    }
     const accessToken: LineworksAccessToken = new LineworksAccessToken();
     accessToken.accessToken = jsonResponse.access_token;
     accessToken.tokenType = jsonResponse.token_type;
