@@ -41,9 +41,7 @@ export class Messenger {
     for await (const data of parser) {
       msgCount++;
       if (msgCount === 1) {
-        console.log(data);
         for (const col in data) {
-          console.log(col);
           if (col.substr(-column.lineworksId.length) === column.lineworksId) {
             colLineworksId = col;
           } else if (col.substr(-column.lineId.length) === column.lineId) {
