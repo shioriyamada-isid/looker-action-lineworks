@@ -45,6 +45,7 @@ export class LineworksAccessTokenController {
       body: form,
     };
     const rowResponse = await fetch(this.tokenUrl, options);
+    console.log(JSON.stringify(rowResponse));
     if (!rowResponse.ok) {
       throw new Error(`Fail to get LINEWORKS AccessToken : ${rowResponse.status} : ${rowResponse.statusText}`);
     }
