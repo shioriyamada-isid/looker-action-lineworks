@@ -23,9 +23,18 @@ const mockLogger = Logger as jest.Mock;
 process.env.SECRET_TOKEN = 'test';
 
 describe('success case', () => {
-  afterAll(() => {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    jest.mock('request', () => {
+      return {
+        body: {
+          scheduled_plan: {
+            scheduled_plan_id: '1',
+          },
+        },
+      };
+    });
   });
+
   test('list', async () => {
     mockList.mockResolvedValue({ test: 'test' });
     const result = await request(app)

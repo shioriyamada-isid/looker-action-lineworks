@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryColumn, CreateDateColumn, UpdateDateColumn } fro
 @Entity()
 export default class lineworksAccessToken {
   @PrimaryColumn()
-  public id: string = 'LINE_WORKS_ACCESS_TOKEN';
+  public id: string = 'LINEWORKS_ACCESS_TOKEN';
 
   @Column()
   public accessToken: string = '';

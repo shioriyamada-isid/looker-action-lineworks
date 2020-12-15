@@ -10,19 +10,18 @@ export const handler = async (req: Express.Request) => {
   if (!reqBody.form_params) {
     throw new Error('必須項目が入力されていません。');
   } else {
-    if (!reqBody.form_params.from_message) {
-      throw new Error('送信元の方へのメッセージが入力されていません。');
-    } else if (reqBody.form_params.from_message.length > 100) {
-      throw new Error('送信元の方へのメッセージが100文字を超えています。');
+    if (!reqBody.form_params.lineworks_message) {
+      throw new Error('LINEWORKSユーザへのメッセージが入力されていません。');
+    } else if (reqBody.form_params.lineworks_message.length > 100) {
+      throw new Error('LINEWORKSユーザへのメッセージが100文字を超えています。');
     }
-    if (!reqBody.form_params.to_message) {
+    if (!reqBody.form_params.line_message) {
       throw new Error('送信先の方へのメッセージテンプレートが入力されていません。');
-    } else if (reqBody.form_params.to_message.length > 75) {
+    } else if (reqBody.form_params.line_message.length > 75) {
       throw new Error('送信先の方へのメッセージテンプレートが75文字を超えています。');
     }
   }
 
-  // TODO error code 422 を入れる
   await invokeHandler(reqBody);
 };
 
@@ -49,13 +48,13 @@ const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; ms
       if (!isSkip) {
         isSkip = true;
         const column = {
-          fromId: req.data.from_id || 'FromID',
-          toId: req.data.to_id || 'ToID',
-          toName: req.data.to_name || 'ToName',
+          lineworksId: (req.data.lineworks_id as string) || 'LineworksId',
+          lineId: (req.data.line_id as string) || 'LineID',
+          lineName: (req.data.line_name as string) || 'LineName',
         };
         const message = {
-          from: req.form_params.from_message,
-          to: req.form_params.to_message,
+          lineworks: req.form_params.lineworks_message as string,
+          line: req.form_params.line_message as string,
         };
         messenger
           .sendMessages(column, message, parser)

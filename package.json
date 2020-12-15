@@ -1,5 +1,5 @@
 {
-  "name": "looker-lineworks-message",
+  "name": "looker-action-lineworks-message",
   "version": "1.0.0",
   "description": "action hub for lineworks to send message",
   "main": "./server.js",

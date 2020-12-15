@@ -77,15 +77,15 @@ export class LineworksAccessTokenController {
   };
 
   private readAccessToken = async () => {
-    return await this.repository.findOne({ id: 'LINE_WORKS_ACCESS_TOKEN' });
+    return await this.repository.findOne({ id: 'LINEWORKS_ACCESS_TOKEN' });
   };
 
   private updateAccessToken = async (lineworksAccessToken: LineworksAccessToken) => {
-    return await this.repository.update({ id: 'LINE_WORKS_ACCESS_TOKEN' }, { accessToken: lineworksAccessToken.accessToken });
+    return await this.repository.update({ id: 'LINEWORKS_ACCESS_TOKEN' }, { accessToken: lineworksAccessToken.accessToken });
   };
 
   private deleteAccessToken = async (): Promise<LineworksAccessToken> => {
-    return await this.repository.delete({ id: 'LINE_WORKS_ACCESS_TOKEN' });
+    return await this.repository.delete({ id: 'LINEWORKS_ACCESS_TOKEN' });
   };
 
   public getValidAccessToken = async (): Promise<string> => {
