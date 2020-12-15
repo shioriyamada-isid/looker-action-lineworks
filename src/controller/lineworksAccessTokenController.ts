@@ -49,6 +49,9 @@ export class LineworksAccessTokenController {
       throw new Error(`Fail to get LINEWORKS AccessToken : ${rowResponse.status} : ${rowResponse.statusText}`);
     }
     const jsonResponse = await rowResponse.json();
+    if (jsonResponse.message === 'jwt invalid signature') {
+      throw new Error(`Fail to get LINEWORKS AccessToken : ${jsonResponse.message} : ${jsonResponse.detail}`);
+    }
     const accessToken: LineworksAccessToken = new LineworksAccessToken();
     accessToken.accessToken = jsonResponse.access_token;
     accessToken.tokenType = jsonResponse.token_type;
@@ -56,11 +59,6 @@ export class LineworksAccessTokenController {
     return accessToken;
   }
 
-  /**
-   *
-   * @param lineworksAccessToken
-   * @description 有効だったらtrue 無効だったらfalse
-   */
   private checkValidTerm = (lineworksAccessToken: LineworksAccessToken): boolean => {
     const now: number = Date.now();
     if (lineworksAccessToken.updatedAt === undefined) return false;

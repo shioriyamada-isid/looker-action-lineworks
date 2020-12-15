@@ -30,7 +30,8 @@ export class Messenger {
     if (!this.token) {
       this.token = await lineworksAccessTokenController.getValidAccessToken();
     }
-    let collineworksId: string = '';
+
+    let colLineworksId: string = '';
     let colLineId: string = '';
     let colLineName: string = '';
     const msgData: MessageData = {};
@@ -43,14 +44,14 @@ export class Messenger {
       if (msgCount === 1) {
         for (const col in data) {
           if (col.substr(-column.lineworksId.length) === column.lineworksId) {
-            collineworksId = col;
+            colLineworksId = col;
           } else if (col.substr(-column.lineId.length) === column.lineId) {
             colLineId = col;
           } else if (col.substr(-column.lineName.length) === column.lineName) {
             colLineName = col;
           }
         }
-        if (!collineworksId) {
+        if (!colLineworksId) {
           throw new Error(`集計データに ${column.lineworksId} 列がありません。`);
         }
         if (!colLineId) {
@@ -61,10 +62,11 @@ export class Messenger {
         }
       }
 
-      let customerList = msgData[data[collineworksId]];
+      let customerList = msgData[data[colLineworksId]];
       if (!customerList) {
         customerList = [];
-        msgData[data[collineworksId]] = customerList;
+        msgData[data[colLineworksId]] = customerList;
+
       }
 
       // lineNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
@@ -124,7 +126,7 @@ export class Messenger {
     const response = await fetch(this.messagePushUrl, options);
 
     if (!response.ok) {
-      if (response.status === 401 && response.statusText === 'Authentication failed') {
+      if (response.status === 401 || response.statusText === 'Authentication failed') {
         const lineworksAccessTokenController = new LineworksAccessTokenController();
         this.token = await lineworksAccessTokenController.forceGetValidAccessToken();
         this.messagePush(member, customers, message);

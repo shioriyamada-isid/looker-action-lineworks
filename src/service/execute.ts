@@ -48,13 +48,13 @@ const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; ms
       if (!isSkip) {
         isSkip = true;
         const column = {
-          lineworksId: (req.data.lineworks_id as string) || 'LineworksId',
-          lineId: (req.data.line_id as string) || 'LineID',
-          lineName: (req.data.line_name as string) || 'LineName',
+          lineworksId: req.data.lineworks_id || 'LineworksId',
+          lineId: req.data.line_id || 'LineID',
+          lineName: req.data.line_name || 'LineName',
         };
         const message = {
-          lineworks: req.form_params.lineworks_message as string,
-          line: req.form_params.line_message as string,
+          lineworks: req.form_params.lineworks_message,
+          line: req.form_params.line_message,
         };
         messenger
           .sendMessages(column, message, parser)
