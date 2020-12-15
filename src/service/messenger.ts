@@ -124,7 +124,7 @@ export class Messenger {
     const response = await fetch(this.messagePushUrl, options);
 
     if (!response.ok) {
-      if (response.status === 401 && response.statusText === 'Authentication failed') {
+      if (response.status === 401 || response.statusText === 'Authentication failed') {
         const lineworksAccessTokenController = new LineworksAccessTokenController();
         this.token = await lineworksAccessTokenController.forceGetValidAccessToken();
         this.messagePush(member, customers, message);
