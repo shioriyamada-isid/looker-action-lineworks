@@ -30,6 +30,7 @@ export class Messenger {
     if (!this.token) {
       this.token = await lineworksAccessTokenController.getValidAccessToken();
     }
+
     let colLineworksId: string = '';
     let colLineId: string = '';
     let colLineName: string = '';
@@ -67,6 +68,7 @@ export class Messenger {
       if (!customerList) {
         customerList = [];
         msgData[data[colLineworksId]] = customerList;
+
       }
 
       // lineNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
