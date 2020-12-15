@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import * as csvParse from 'csv-parse';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';
 
+// interface
 interface CustomerMessage {
   customerId: number;
   customerName: string;
@@ -22,17 +23,17 @@ export class Messenger {
   }
 
   sendMessages = async (
-    column: { fromId: string; toId: string; toName: string },
-    message: { from: string; to: string },
+    column: { lineworksId: string; lineId: string; lineName: string },
+    message: { lineworks: string; line: string },
     parser: csvParse.Parser
   ): Promise<{ sendCount: number; msgCount: number }> => {
     const lineworksAccessTokenController = new LineworksAccessTokenController();
     if (!this.token) {
       this.token = await lineworksAccessTokenController.getValidAccessToken();
     }
-    let colFromId: string = '';
-    let colToId: string = '';
-    let colToName: string = '';
+    let collineworksId: string = '';
+    let colLineId: string = '';
+    let colLineName: string = '';
     const msgData: MessageData = {};
     let msgCount: number = 0;
 
@@ -42,40 +43,41 @@ export class Messenger {
       msgCount++;
       if (msgCount === 1) {
         for (const col in data) {
-          if (col.substr(-column.fromId.length) === column.fromId) {
-            colFromId = col;
-          } else if (col.substr(-column.toId.length) === column.toId) {
-            colToId = col;
-          } else if (col.substr(-column.toName.length) === column.toName) {
-            colToName = col;
+          if (col.substr(-column.lineworksId.length) === column.lineworksId) {
+            collineworksId = col;
+          } else if (col.substr(-column.lineId.length) === column.lineId) {
+            colLineId = col;
+          } else if (col.substr(-column.lineName.length) === column.lineName) {
+            colLineName = col;
           }
         }
-        if (!colFromId) {
-          throw new Error(`集計データに ${column.fromId} 列がありません。`);
+        if (!collineworksId) {
+          throw new Error(`集計データに ${column.lineworksId} 列がありません。`);
         }
-        if (!colToId) {
-          throw new Error(`集計データに ${column.toId} 列がありません。`);
+        if (!colLineId) {
+          throw new Error(`集計データに ${column.lineId} 列がありません。`);
         }
-        if (!colToName) {
-          throw new Error(`集計データに ${column.toName} 列がありません。`);
+        if (!colLineName) {
+          throw new Error(`集計データに ${column.lineName} 列がありません。`);
         }
       }
 
-      let customerList = msgData[data[colFromId]];
+      let customerList = msgData[data[collineworksId]];
       if (!customerList) {
         customerList = [];
-        msgData[data[colFromId]] = customerList;
+        msgData[data[collineworksId]] = customerList;
       }
 
-      // toNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
-      const toName = data[colToName].length > 10 ? data[colToName].slice(0, 9) + '…' : data[colToName];
-      customerList.push({ customerId: data[colToId], customerName: toName });
+      // lineNameが20文字を超えていた場合、20文字に切り下げを行い末尾に「...」を入れる処理
+      const customerName = data[colLineName].length > 10 ? data[colLineName].slice(0, 9) + '…' : data[colLineName];
+      customerList.push({ customerId: data[colLineId], customerName: customerName });
     }
 
     let sendCount = 0;
 
     console.log('msgData');
     console.log(msgData);
+
     for (const member in msgData) {
       const customerList = msgData[member];
       const tmpCustomerList = arrayChunk(customerList, 10);
@@ -94,21 +96,21 @@ export class Messenger {
   private messagePush = async (
     member: string,
     customers: Array<{ customerId: number; customerName: string }>,
-    message: { from: string; to: string }
+    message: { lineworks: string; line: string }
   ) => {
     const actions = [];
     for (const customer of customers) {
       actions.push({
         type: 'uri',
         label: customer.customerName + '様へメッセージを送る',
-        uri: 'lineworks://message/send?version=15&message=' + encodeURI(message.to) + '&worksAtIdList=' + customer.customerId,
+        uri: 'lineworks://message/send?version=15&message=' + encodeURI(message.line) + '&worksAtIdList=' + customer.customerId,
       });
     }
     const body = {
       accountId: member,
       content: {
         type: 'button_template',
-        contentText: message.from,
+        contentText: message.lineworks,
         actions: actions,
       },
     };
