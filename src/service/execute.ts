@@ -44,7 +44,6 @@ const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; ms
       columns: true,
     });
     let isSkip: boolean = false;
-
     parser.on('readable', () => {
       if (!isSkip) {
         isSkip = true;

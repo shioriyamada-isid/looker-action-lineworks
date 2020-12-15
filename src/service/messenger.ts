@@ -11,7 +11,6 @@ interface CustomerMessage {
 interface MessageData {
   [key: string]: CustomerMessage[];
 }
-
 export class Messenger {
   private messagePushUrl: string;
   private consumerKey: string;
@@ -81,8 +80,6 @@ export class Messenger {
     for (const member in msgData) {
       const customerList = msgData[member];
       const tmpCustomerList = arrayChunk(customerList, 10);
-
-      console.log(tmpCustomerList);
 
       for (const customerList of tmpCustomerList) {
         sendCount += customerList.length;
