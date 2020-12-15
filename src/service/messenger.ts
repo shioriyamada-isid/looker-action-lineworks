@@ -51,6 +51,9 @@ export class Messenger {
             colLineName = col;
           }
         }
+        console.log(colLineworksId);
+        console.log(colLineName);
+        console.log(colLineId);
         if (!colLineworksId) {
           throw new Error(`集計データに ${column.lineworksId} 列がありません。`);
         }
