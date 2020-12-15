@@ -56,11 +56,6 @@ export class LineworksAccessTokenController {
     return accessToken;
   }
 
-  /**
-   *
-   * @param lineworksAccessToken
-   * @description 有効だったらtrue 無効だったらfalse
-   */
   private checkValidTerm = (lineworksAccessToken: LineworksAccessToken): boolean => {
     const now: number = Date.now();
     if (lineworksAccessToken.updatedAt === undefined) return false;
