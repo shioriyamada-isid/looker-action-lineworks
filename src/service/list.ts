@@ -7,6 +7,7 @@ export const handler = async (req: Express.Request) => {
       {
         name: 'lineworks_messenge',
         label: 'LINEWORKS Messenge',
+        //  supported_action_types: ['query'],
         supported_action_types: ['query', 'dashboard', 'cell'],
         url: `https://${req.hostname}/execute`,
         icon_data_uri:
@@ -15,7 +16,8 @@ export const handler = async (req: Express.Request) => {
         supported_formats: ['csv', 'wysiwyg_png'],
         supported_formattings: ['unformatted'],
         supported_visualization_formattings: ['apply'],
-        supported_download_settings: ['url'],
+        supported_download_settings: ['url', 'push'],
+        // supported_download_settings: ['url'],
         params: [
           {
             name: 'lineworks_id',
