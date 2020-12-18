@@ -7,7 +7,8 @@ import { Logger } from './utils/logger';
 const app = Express();
 
 app.use(Express.json());
-app.use(Express.urlencoded({ extended: true, limit: '500mb' }));
+// app.use(Express.urlencoded({ extended: true, limit: '500mb' }));
+app.use(Express.urlencoded({ extended: true, limit: '5000mb' }));
 app.use((req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   const logger = new Logger(0);
   if (req.get('Authorization') !== `Token token="${process.env.SECRET_TOKEN}"`) {
