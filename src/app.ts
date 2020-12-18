@@ -7,7 +7,6 @@ import { Logger } from './utils/logger';
 const app = Express();
 
 app.use(Express.json());
-// app.use(Express.urlencoded({ extended: true, limit: '500mb' }));
 app.use(Express.urlencoded({ extended: true, limit: '50mb' }));
 app.use((req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   const logger = new Logger(0);
@@ -29,7 +28,6 @@ app.post('/', async (req: Express.Request, res: Express.Response) => {
 });
 
 app.post('/execute', async (req: Express.Request, res: Express.Response) => {
-  console.log(JSON.stringify(req.body));
   const logger = new Logger(req.body.scheduled_plan.scheduled_plan_id);
   let statuCode = 200;
   try {
