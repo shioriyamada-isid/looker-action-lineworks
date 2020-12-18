@@ -3,7 +3,6 @@ import * as list from './service/list';
 import * as execute from './service/execute';
 import * as form from './service/form';
 import { Logger } from './utils/logger';
-import { stat } from 'fs';
 
 const app = Express();
 
@@ -29,6 +28,7 @@ app.post('/', async (req: Express.Request, res: Express.Response) => {
 });
 
 app.post('/execute', async (req: Express.Request, res: Express.Response) => {
+  console.log(JSON.stringify(req.body));
   const logger = new Logger(req.body.scheduled_plan.scheduled_plan_id);
   let statuCode = 200;
   try {
