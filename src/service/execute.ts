@@ -38,23 +38,25 @@ const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; ms
   return new Promise<any>((resolve, reject) => {
     const messenger: Messenger = new Messenger();
     const url = req.scheduled_plan.download_url;
+    const column = {
+      lineworksId: req.data.lineworks_id || 'LineworksId',
+      lineId: req.data.line_id || 'LineID',
+      lineName: req.data.line_name || 'LineName',
+    };
+    const message = {
+      lineworks: req.form_params.lineworks_message,
+      line: req.form_params.line_message,
+    };
     const parser = csvParse({
       delimiter: '\t',
       columns: true,
     });
     let isSkip: boolean = false;
     parser.on('readable', () => {
+      console.log('parser');
+      console.log(parser);
       if (!isSkip) {
         isSkip = true;
-        const column = {
-          lineworksId: req.data.lineworks_id || 'LineworksId',
-          lineId: req.data.line_id || 'LineID',
-          lineName: req.data.line_name || 'LineName',
-        };
-        const message = {
-          lineworks: req.form_params.lineworks_message,
-          line: req.form_params.line_message,
-        };
         messenger
           .sendMessages(column, message, parser)
           .then((result: { sendCount: number; msgCount: number }) => {
