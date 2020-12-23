@@ -6,7 +6,6 @@ import { Logger } from '../utils/logger';
 
 export const handler = async (req: Express.Request) => {
   const reqBody = req.body;
-
   if (!reqBody.form_params) {
     throw new Error('必須項目が入力されていません。');
   } else {
@@ -16,16 +15,16 @@ export const handler = async (req: Express.Request) => {
       throw new Error('LINEWORKSユーザへのメッセージが100文字を超えています。');
     }
     if (!reqBody.form_params.line_message) {
-      throw new Error('送信先の方へのメッセージテンプレートが入力されていません。');
+      throw new Error('LINEユーザへのメッセージテンプレートが入力されていません。');
     } else if (reqBody.form_params.line_message.length > 75) {
-      throw new Error('送信先の方へのメッセージテンプレートが75文字を超えています。');
+      throw new Error('LINEユーザへのメッセージテンプレートが75文字を超えています。');
     }
   }
 
   await invokeHandler(reqBody);
 };
 
-export const invokeHandler = async (req: any) => {
+const invokeHandler = async (req: any) => {
   const logger = new Logger(req.scheduled_plan.scheduled_plan_id);
   const cnt = await sendMessages(req, logger);
   if (cnt.sendCount === cnt.msgCount) {

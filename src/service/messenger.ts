@@ -3,14 +3,26 @@ import * as csvParse from 'csv-parse';
 import { LineworksAccessTokenController } from '../controller/lineworksAccessTokenController';
 
 // interface
-interface CustomerMessage {
+export interface CustomerMessage {
   customerId: number;
   customerName: string;
 }
 
-interface MessageData {
+export interface MessageData {
   [key: string]: CustomerMessage[];
 }
+
+export interface Column {
+  lineworksId: string;
+  lineId: string;
+  lineName: string;
+}
+
+export interface Message {
+  lineworks: string;
+  line: string;
+}
+
 export class Messenger {
   private messagePushUrl: string;
   private consumerKey: string;
@@ -21,11 +33,7 @@ export class Messenger {
     this.consumerKey = process.env.LINEWORKS_CONSUMER_KEY || '';
   }
 
-  sendMessages = async (
-    column: { lineworksId: string; lineId: string; lineName: string },
-    message: { lineworks: string; line: string },
-    parser: csvParse.Parser
-  ): Promise<{ sendCount: number; msgCount: number }> => {
+  sendMessages = async (column: Column, message: Message, parser: csvParse.Parser): Promise<{ sendCount: number; msgCount: number }> => {
     const lineworksAccessTokenController = new LineworksAccessTokenController();
     if (!this.token) {
       this.token = await lineworksAccessTokenController.getValidAccessToken();
@@ -37,8 +45,7 @@ export class Messenger {
     const msgData: MessageData = {};
     let msgCount: number = 0;
 
-    // const isErr: boolean = false;
-
+    console.log(JSON.stringify(parser));
     for await (const data of parser) {
       msgCount++;
       if (msgCount === 1) {
@@ -80,12 +87,12 @@ export class Messenger {
 
     for (const member in msgData) {
       const customerList = msgData[member];
-      const tmpCustomerList = arrayChunk(customerList, 10);
+      const tmpCustomerList = this.arrayChunk(customerList, 10);
 
       for (const customerList of tmpCustomerList) {
         sendCount += customerList.length;
         await this.messagePush(member, customerList, message);
-        await sleep(500);
+        await this.sleep(500);
       }
     }
     return { sendCount: sendCount, msgCount: msgCount };
@@ -134,10 +141,10 @@ export class Messenger {
       }
     }
   };
+
+  private arrayChunk = ([...array], size = 1) => {
+    return array.reduce((acc, value, index) => (index % size ? acc : [...acc, array.slice(index, index + size)]), []);
+  };
+
+  private sleep = (msec: number) => new Promise(resolve => setTimeout(resolve, msec));
 }
-
-const arrayChunk = ([...array], size = 1) => {
-  return array.reduce((acc, value, index) => (index % size ? acc : [...acc, array.slice(index, index + size)]), []);
-};
-
-const sleep = (msec: number) => new Promise(resolve => setTimeout(resolve, msec));
