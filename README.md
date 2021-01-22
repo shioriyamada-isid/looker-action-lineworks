@@ -124,7 +124,7 @@ LINE WORKS 管理画面でコピーした項目を、環境変数として以下
 
 - `SECRET_TOKEN` - Looker からの接続制限をかける設計にしているため、Looker 管理画面で`Authorization Token`として入力が必要
 
-![Heroku_deploy_04](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Heroku_deploy_04.png?token=AMHX5MNF2DFGKLZPBKHEX23ABJMS4)
+![Heroku_deploy_04](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_action_04.png)
 
 ## 5. Looker の設定
 
@@ -137,7 +137,7 @@ Looker の設定手順は以下となります。
 3. Looker からの接続制限を設定しているため初回入力時はアラートが表示されるが、Configure Authorization ボタンを押下
 4. heroku の環境変数にてコピーしておいた`SECRET_TOKEN` を、`Authorization Token`に入力し、Update Token ボタンを押下
 
-![Looker_action_05](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker_action_05.png?token=AMHX5MKOCJR2ZS37XVVBTXTABJMXG)
+![Looker_action_05](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_action_05.png)
 
 ---
 
@@ -157,7 +157,7 @@ LINE WORKS Bot から送付する LINE WORKS /LINE ユーザ送信先リスト�
 
 ■Looker 管理画面
 
-![Looker管理画面_マッピング](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker%E7%AE%A1%E7%90%86%E7%94%BB%E9%9D%A2_%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0.png?token=AMHX5MMQYZBOYO7AQCG5WUDABJNPE)
+![Looker管理画面_マッピング](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker%E7%AE%A1%E7%90%86%E7%94%BB%E9%9D%A2_%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0.png)
 
 #### 3. Looker の Explore 画面でクエリ発行
 
@@ -192,7 +192,7 @@ LINE WORKS および Looker での設定完了後、LINE WORKS 連携 Action の
 1. 6 章の[3. Looker の Explore 画面でクエリ発行](#3lookerのexplore画面でクエリ発行)を行った Explore から「送信」ボタンを押下し、Action フォーム画面で LINE WORKS を選択
 2. LINE WORKS ユーザ向けのテンプレートメッセージ、LINE ユーザ向けのテンプレートメッセージをそれぞれ入力して送信（リアルタイム配信）
 
-![Looker_ActionForm](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker_ActionForm.png?token=AMHX5MLGPUDD3QETKNCXHTLABJNVM)
+![Looker_ActionForm](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_ActionForm.png)
 
 #### LINE WORKS 連携 Action の送信方法
 
