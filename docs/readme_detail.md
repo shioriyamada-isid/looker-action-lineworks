@@ -1,13 +1,13 @@
 ## 目次
 
-1. [LINE WORKS 連携 Action 概要](#1lineworks連携action概要)
-2. [LINE WORKS 連携 Action の利用前提条件](#2lineworks連携actionの利用前提条件)
-3. [ETL 処理サンプル](#3etl処理サンプル)
-4. [LINE WORKS の設定](#4lineworksの設定)
-5. [Heroku デプロイ設定](#5herokuデプロイ設定)
-6. [Looker の設定](#6lookerの設定)
-7. [LINE WORKS 連携 Action の利用方法](#7lineworks連携actionの利用方法)
-8. [免責事項](#8免責事項)
+1. [LINE WORKS 連携 Action 概要](#1-line-works-連携-action-概要)
+2. [LINE WORKS 連携 Action の利用前提条件](#2-line-works-連携-action-の利用前提条件)
+3. [ETL 処理サンプル](#3-etl-処理サンプル)
+4. [LINE WORKS の設定](#4-line-works-の設定)
+5. [Heroku デプロイ設定](#5-heroku-デプロイ設定)
+6. [Looker の設定](#6-looker-の設定)
+7. [LINE WORKS 連携 Action の利用方法](#7-line-works-連携-action-の利用方法)
+8. [免責事項](#8-免責事項)
 
 ## 1. LINE WORKS 連携 Action 概要
 
@@ -31,7 +31,7 @@ Looker の Explore 画面で抽出した LINE WORKS /LINE ユーザが紐付い�
 
 操作フロー NO.3 以降のフローイメージが下図
 
-![LINEWORKS連携Actionフロー図](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/LINEWORKS 連携 Action フロー図.png)
+![LINEWORKS連携Actionフロー図](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/LINEWORKS%E9%80%A3%E6%90%BAAction%E3%83%95%E3%83%AD%E3%83%BC%E5%9B%B3.png)
 
 **■ ユースケース**
 
@@ -58,7 +58,7 @@ LINE WORKS 連携 Action では No.3「**Action API を使用して、プライ�
 
 **■LINE WORKS 連携 Action のアーキテクチャ（参考）**
 
-![Looker_概要_02](/Users/sioriyamada/Documents/ LookerRD/20 年下期*Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker*概要\_02.png)
+![Looker_概要_02](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_%E6%A6%82%E8%A6%81_02.png)
 
 - Action Hub サーバ
 
@@ -75,7 +75,7 @@ LINE WORKS では bot を通してメッセージを送信する場合、サー�
 
 後述する「LINE WORKS：管理コンソールでの設定準備」でも触れますが、今回は**ID 登録タイプ**を採用しています。
 
-![LINEWORKS_token関連](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/LINEWORKS_token 関連.png)
+![LINEWORKS_token関連](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/LINEWORKS_token%E9%96%A2%E9%80%A3.png)
 
 引用：https://developers.worksmobile.com/jp/document/1002002?lang=ja
 
@@ -109,7 +109,7 @@ LINE WORKS が提供している[監査データのダウンロード API](https
 
 ■LINE WORKS > Admin 画面の監査 > トーク画面
 
-![LINEWORKS_ETL処理01](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/LINEWORKS_ETL 処理 01.png)
+![LINEWORKS_ETL処理01](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/LINEWORKS_ETL%E5%87%A6%E7%90%8601.png)
 
 #### 3.2. トークメッセージのデータ整形
 
@@ -160,7 +160,7 @@ LINE WORKS 連携 Action では、送信先リストと任意のテンプレー�
 
 ただしこの sql は、**Amazon Athena の DML：[Presto 0.172](https://prestodb.io/docs/0.172/index.html) と [Presto 0.217](https://prestodb.io/docs/0.217/index.html) に準拠した記載**のため、接続している DWH 環境に併せて書いてください。
 
-![LookML](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/LookML.png)
+![LookML](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/LookML.png)
 
 LookML で定義している dimension と、トークメッセージから抽出した各データの紐付けは以下となります。
 
@@ -191,7 +191,7 @@ LINE WORKS 連携 Action では、LINE WORKS Bot → LINE WORKS ユーザ → LI
 
 以下は LookML でフィルタ処理をしたサンプルとなります。
 
-![LookML02](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/LookML02.png)
+![LookML02](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/LookML02.png)
 
 #### 3.3. LINE WORKS 連携 Action 設定用準備
 
@@ -205,7 +205,7 @@ LINE WORKS 連携 Action では、LINE WORKS Bot → LINE WORKS ユーザ → LI
 
 ※`dimension: sender_name`は、LINE WORKS 連携 Action では利用しないマッピング項目のためコピー不要
 
-![Looker_Explore](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker_Explore.png)
+![Looker_Explore](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_Explore.png)
 
 ## 4. LINE WORKS の設定
 
@@ -284,13 +284,13 @@ LINE WORKS 管理画面でコピーした項目を、環境変数として以下
 
 - `SECRET_TOKEN` - Looker からの接続制限をかける設計にしているため、Looker 管理画面で`Authorization Token`として入力が必要
 
-![Heroku_deploy_04](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Heroku_deploy_04.png)
+![Heroku_deploy_04](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_action_04.png)
 
-## 5. Looker の設定
+## 6. Looker の設定
 
 Looker の設定手順は以下となります。
 
-![Looker_action_05](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker_action_05.png)
+![Looker_action_05](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_action_05.png)
 
 ---
 
@@ -310,7 +310,7 @@ LINE WORKS Bot から送付する LINE WORKS /LINE ユーザ送信先リスト�
 
 ■Looker 管理画面
 
-![Looker管理画面_マッピング](/Users/sioriyamada/Documents/ LookerRD/20 年下期*Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker 管理画面*マッピング.png)
+![Looker管理画面_マッピング](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker%E7%AE%A1%E7%90%86%E7%94%BB%E9%9D%A2_%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0.png)
 
 #### 3. Looker の Explore 画面でクエリ発行
 
@@ -336,7 +336,7 @@ Looker 管理画面で`LINE WORKS ID` `LINE ID` `LINE NAME` に入力した Expl
 - zzzzz@org へ送付する、LINE ユーザリスト
   - 山田太郎(901000000011001)
 
-## 6. LINE WORKS 連携 Action の利用方法
+## 7. LINE WORKS 連携 Action の利用方法
 
 LINE WORKS および Looker での設定完了後、LINE WORKS 連携 Action の主な利用方法は以下となります。
 
@@ -345,7 +345,7 @@ LINE WORKS および Looker での設定完了後、LINE WORKS 連携 Action の
 1. 6 章の[3. Looker の Explore 画面でクエリ発行](#3lookerのexplore画面でクエリ発行)を行った Explore から「送信」ボタンを押下し、Action フォーム画面で LINE WORKS を選択
 2. LINE WORKS ユーザ向けのテンプレートメッセージ、LINE ユーザ向けのテンプレートメッセージをそれぞれ入力して送信（リアルタイム配信）
 
-![Looker_ActionForm](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker_ActionForm.png)
+![Looker_ActionForm](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_ActionForm.png)
 
 #### LINE WORKS 連携 Action の送信方法
 
@@ -363,7 +363,7 @@ LINE WORKS 連携 Action では上記の「Explore 画面から即時送信」�
 
   - 指定した条件に合致した場合、クエリ発行した内容を LINE WORKS Bot に即時送信可能です。閾値を超過した際にメールアラートを設定すると、問題が発生したときでも顧客や現場ユーザへの連絡が簡単です。
 
-## 7. 免責事項
+## 8. 免責事項
 
 本 OSS の使用により問題が生じた場合 および 不具合に対する対応責任は負いません。
 
