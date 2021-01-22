@@ -4,13 +4,13 @@
 
 ## 目次
 
-1. [LINE WORKS 連携 Action 概要](#1lineworks連携action概要)
-2. [LINE WORKS 連携 Action の利用前提条件](#2lineworks連携actionの利用前提条件)
-3. [LINE WORKS の設定](#3lineworksの設定)
-4. [Heroku デプロイ設定](#4herokuデプロイ設定)
-5. [Looker の設定](#5lookerの設定)
-6. [LINE WORKS 連携 Action の利用方法](#6lineworks連携actionの利用方法)
-7. [免責事項](#7免責事項)
+1. [LINE WORKS 連携 Action 概要](#1-line-works-連携-action-概要)
+2. [LINE WORKS 連携 Action の利用前提条件](#2-line-works-連携-action-の利用前提条件)
+3. [LINE WORKS の設定](#3-line-works-の設定)
+4. [Heroku デプロイ設定](#4-heroku-デプロイ設定)
+5. [Looker の設定](#5-looker-の設定)
+6. [LINE WORKS 連携 Action の利用方法](#6-line-works-連携-action-の利用方法)
+7. [免責事項](#7-免責事項)
 
 ## 1. LINE WORKS 連携 Action 概要
 
@@ -22,7 +22,7 @@ Looker の Explore 画面で抽出した LINE WORKS /LINE ユーザが紐付い�
 
 **■LINE WORKS 連携 Action を用いたフローイメージ図 （参考）**
 
-![LINEWORKS連携Actionフロー図](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/LINEWORKS 連携 Action フロー図.png)
+![LINEWORKS連携Actionフロー図](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/LINEWORKS%E9%80%A3%E6%90%BAAction%E3%83%95%E3%83%AD%E3%83%BC%E5%9B%B3.png?token=AMHX5MM5FDJN33LMWSG5V6DABJMMS)
 
 #### 2. LINE WORKS 連携 Action のアーキテクチャ
 
@@ -30,7 +30,7 @@ Heroku(Heroku Button)で Action Hub サーバを構築しており、アーキ�
 
 ※詳細は弊社記載の[Qiita](https://qiita.com/kumakura/items/48d14b31fda4e8c46c0b)記事も参照下さい
 
-![Looker_概要_02](/Users/sioriyamada/Documents/ LookerRD/20 年下期*Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker*概要\_02.png)
+![Looker_概要_02](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker_%E6%A6%82%E8%A6%81_02.png?token=AMHX5MM56RGAS3NVJVSYO7LABJMP6)
 
 ## 2. LINE WORKS 連携 Action の利用前提条件
 
@@ -103,7 +103,7 @@ Heroku の設定手順は以下となります。
 
 #### 1. 以下の Deploy to Heroku ボタンを押下　**★ 後でリンク貼り替え**
 
-![Deploy](https://www.herokucdn.com/deploy/button.png)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/KumakuraKoki/looker-action-lineworks)
 
 #### 2. 任意の App name を入力
 
@@ -124,7 +124,7 @@ LINE WORKS 管理画面でコピーした項目を、環境変数として以下
 
 - `SECRET_TOKEN` - Looker からの接続制限をかける設計にしているため、Looker 管理画面で`Authorization Token`として入力が必要
 
-![Heroku_deploy_04](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Heroku_deploy_04.png)
+![Heroku_deploy_04](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Heroku_deploy_04.png?token=AMHX5MNF2DFGKLZPBKHEX23ABJMS4)
 
 ## 5. Looker の設定
 
@@ -137,7 +137,7 @@ Looker の設定手順は以下となります。
 3. Looker からの接続制限を設定しているため初回入力時はアラートが表示されるが、Configure Authorization ボタンを押下
 4. heroku の環境変数にてコピーしておいた`SECRET_TOKEN` を、`Authorization Token`に入力し、Update Token ボタンを押下
 
-![Looker_action_05](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker_action_05.png)
+![Looker_action_05](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker_action_05.png?token=AMHX5MKOCJR2ZS37XVVBTXTABJMXG)
 
 ---
 
@@ -157,7 +157,7 @@ LINE WORKS Bot から送付する LINE WORKS /LINE ユーザ送信先リスト�
 
 ■Looker 管理画面
 
-![Looker管理画面_マッピング](/Users/sioriyamada/Documents/ LookerRD/20 年下期*Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker 管理画面*マッピング.png)
+![Looker管理画面_マッピング](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker%E7%AE%A1%E7%90%86%E7%94%BB%E9%9D%A2_%E3%83%9E%E3%83%83%E3%83%94%E3%83%B3%E3%82%B0.png?token=AMHX5MMQYZBOYO7AQCG5WUDABJNPE)
 
 #### 3. Looker の Explore 画面でクエリ発行
 
@@ -192,7 +192,7 @@ LINE WORKS および Looker での設定完了後、LINE WORKS 連携 Action の
 1. 6 章の[3. Looker の Explore 画面でクエリ発行](#3lookerのexplore画面でクエリ発行)を行った Explore から「送信」ボタンを押下し、Action フォーム画面で LINE WORKS を選択
 2. LINE WORKS ユーザ向けのテンプレートメッセージ、LINE ユーザ向けのテンプレートメッセージをそれぞれ入力して送信（リアルタイム配信）
 
-![Looker_ActionForm](/Users/sioriyamada/Documents/ LookerRD/20 年下期\_Action 公開用/LINEWORKS_readme 作成用/Readme 添付用画像/Looker_ActionForm.png)
+![Looker_ActionForm](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker_ActionForm.png?token=AMHX5MLGPUDD3QETKNCXHTLABJNVM)
 
 #### LINE WORKS 連携 Action の送信方法
 
