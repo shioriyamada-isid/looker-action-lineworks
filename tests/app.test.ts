@@ -1,11 +1,12 @@
+// todo refine
 import * as request from 'supertest';
 import * as list from '../src/service/list';
 import * as execute from '../src/service/execute';
 import * as form from '../src/service/form';
-import { Logger } from '../src/utils/logger';
 
 // test target
 import app from '../src/app';
+import { Logger } from '../src/utils/logger';
 
 // mock
 jest.mock('../src/service/list');
@@ -35,6 +36,10 @@ describe('success case', () => {
     });
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('list', async () => {
     mockList.mockResolvedValue({ test: 'test' });
     const result = await request(app)
@@ -57,22 +62,28 @@ describe('success case', () => {
     mockExeute.mockResolvedValue('test');
     const result = await request(app)
       .post('/execute')
-      .set('Authorization', 'Token token="test"');
+      .set('Authorization', 'Token token="test"')
+      .send({
+        scheduled_plan: {
+          scheduled_plan_id: 1,
+        },
+      });
     expect(result.status).toBe(200);
   });
 });
 
 describe('failure case', () => {
-  beforeEach(() => {
-    jest.restoreAllMocks();
-  });
-
   it('throw Error in execute', async () => {
     const spyLogger = jest.spyOn(mockLogger.prototype, 'error').mockImplementationOnce(() => {});
     mockExeute.mockRejectedValue('test');
     const result = await request(app)
       .post('/execute')
-      .set('Authorization', 'Token token="test"');
+      .set('Authorization', 'Token token="test"')
+      .send({
+        scheduled_plan: {
+          scheduled_plan_id: 1,
+        },
+      });
     expect(result.status).toBe(400);
     expect(spyLogger).toHaveBeenCalled();
   });
