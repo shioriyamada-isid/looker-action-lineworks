@@ -22,7 +22,7 @@ Looker の Explore 画面で抽出した LINE WORKS /LINE ユーザが紐付い�
 
 **■LINE WORKS 連携 Action を用いたフローイメージ図 （参考）**
 
-![LINEWORKS連携Actionフロー図](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/LINEWORKS%E9%80%A3%E6%90%BAAction%E3%83%95%E3%83%AD%E3%83%BC%E5%9B%B3.png?token=AMHX5MM5FDJN33LMWSG5V6DABJMMS)
+![LINEWORKS連携Actionフロー図](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/LINEWORKS%E9%80%A3%E6%90%BAAction%E3%83%95%E3%83%AD%E3%83%BC%E5%9B%B3.png)
 
 #### 2. LINE WORKS 連携 Action のアーキテクチャ
 
@@ -30,7 +30,7 @@ Heroku(Heroku Button)で Action Hub サーバを構築しており、アーキ�
 
 ※詳細は弊社記載の[Qiita](https://qiita.com/kumakura/items/48d14b31fda4e8c46c0b)記事も参照下さい
 
-![Looker_概要_02](https://raw.githubusercontent.com/KumakuraKoki/looker-action-lineworks/image/readme/Looker_%E6%A6%82%E8%A6%81_02.png?token=AMHX5MM56RGAS3NVJVSYO7LABJMP6)
+![Looker_概要_02](https://github.com/KumakuraKoki/looker-action-lineworks/blob/image/readme/Looker_%E6%A6%82%E8%A6%81_02.png)
 
 ## 2. LINE WORKS 連携 Action の利用前提条件
 
