@@ -6,6 +6,8 @@ import { Logger } from '../utils/logger';
 
 export const handler = async (req: Express.Request) => {
   const reqBody = req.body;
+
+  // validation
   if (!reqBody.form_params) {
     throw new Error('必須項目が入力されていません。');
   } else {
@@ -21,60 +23,51 @@ export const handler = async (req: Express.Request) => {
     }
   }
 
-  await invokeHandler(reqBody);
-};
+  const logger = new Logger(reqBody.scheduled_plan.scheduled_plan_id);
+  const messenger: Messenger = new Messenger();
+  const url = reqBody.scheduled_plan.download_url;
 
-const invokeHandler = async (req: any) => {
-  const logger = new Logger(req.scheduled_plan.scheduled_plan_id);
-  const cnt = await sendMessages(req, logger);
-  if (cnt.sendCount === cnt.msgCount) {
-    logger.info(`[${cnt.sendCount}/${cnt.msgCount}]件のメッセージを送信しました。`);
-  } else {
-    logger.error(`[${cnt.sendCount}/${cnt.msgCount}]件のメッセージを送信しました。`);
-  }
-};
+  const column = {
+    lineworksId: reqBody.data.lineworks_id,
+    lineId: reqBody.data.line_id,
+    lineName: reqBody.data.line_name,
+  };
 
-const sendMessages = (req: any, logger: Logger): Promise<{ sendCount: number; msgCount: number }> => {
-  return new Promise<any>((resolve, reject) => {
-    const messenger: Messenger = new Messenger();
-    const url = req.scheduled_plan.download_url;
-    const column = {
-      lineworksId: req.data.lineworks_id || 'LineworksId',
-      lineId: req.data.line_id || 'LineID',
-      lineName: req.data.line_name || 'LineName',
-    };
-    const message = {
-      lineworks: req.form_params.lineworks_message,
-      line: req.form_params.line_message,
-    };
-    const parser = csvParse({
-      delimiter: '\t',
-      columns: true,
-    });
-    let isSkip: boolean = false;
-    parser.on('readable', () => {
-      console.log('parser');
-      console.log(parser);
-      if (!isSkip) {
-        isSkip = true;
-        messenger
-          .sendMessages(column, message, parser)
-          .then((result: { sendCount: number; msgCount: number }) => {
-            resolve(result);
-          })
-          .catch(e => {
-            reject(e);
-          });
-      }
-    });
+  const message = {
+    lineworks: reqBody.form_params.lineworks_message,
+    line: reqBody.form_params.line_message,
+  };
 
-    parser.on('error', err => {
-      logger.error('集計データの読み込みでエラーが発生しました。');
-      reject(err);
-    });
-
-    fetch(url).then(response => {
-      response.body.pipe(parser);
-    });
+  const parser = csvParse({
+    delimiter: '\t',
+    columns: true,
   });
+
+  let isSkip: boolean = false;
+
+  parser.on('readable', () => {
+    if (!isSkip) {
+      isSkip = true;
+      messenger
+        .sendMessages(column, message, parser)
+        .then(result => {
+          if (result.sendCount === result.msgCount) {
+            logger.info(`[${result.sendCount}/${result.msgCount}]件のメッセージを送信しました。`);
+          } else {
+            logger.error(`[${result.sendCount}/${result.msgCount}]件のメッセージを送信しました。`);
+          }
+        })
+        .catch(e => {
+          throw new Error(e.message);
+        });
+    }
+  });
+
+  parser.on('error', err => {
+    logger.error('集計データの読み込みでエラーが発生しました。');
+    throw new Error(err.message);
+  });
+
+  const response = await fetch(url);
+  response.body.pipe(parser);
 };

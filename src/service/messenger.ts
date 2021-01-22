@@ -45,7 +45,6 @@ export class Messenger {
     const msgData: MessageData = {};
     let msgCount: number = 0;
 
-    console.log(JSON.stringify(parser));
     for await (const data of parser) {
       msgCount++;
       if (msgCount === 1) {
@@ -81,9 +80,6 @@ export class Messenger {
     }
 
     let sendCount = 0;
-
-    console.log('msgData');
-    console.log(msgData);
 
     for (const member in msgData) {
       const customerList = msgData[member];
